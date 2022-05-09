@@ -1,0 +1,84 @@
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* Reseteo para navegadores viejos */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+	display: block;
+}
+body,
+html {
+	height: 100%;
+}
+ol,
+ul {
+	list-style: none;
+}
+blockquote,
+q {
+	quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+	content: "";
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+:root {
+	/*Sirven como variables para los colores mas usados, se acceden con var(--COLOR)*/
+	--Accent: #2c9c00;
+	--Grey: #59646d;
+	--Light-Grey: #c0c7cc;
+	--Lightest-Grey: #faf8dc;
+	--Dark-Grey: #424950;
+	--Darker-Grey: #333;
+}
+
+main {
+	background-color: var(--Lightest-Grey);
+	width: 100%;
+	height: 100%;
+	position: relative;
+	max-width: 3000;
+}
+
+.login-main {
+	text-align: center;
+	background-color: white;
+	border: 2px dashed var(--Darker-Grey);
+	height: 75%;
+	width: 30%;
+	position: absolute;
+	display: flex;
+	align-items: center;
+	left: 35%;
+	top: 10%;
+}
+
+.login-content {
+	
+}
+
+.login-img img {
+	width: 50%;
+}
