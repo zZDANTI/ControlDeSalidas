@@ -10,8 +10,19 @@
 	<body>
 		<main>
 			<div class="login-main">
-				<div class="login-img login-content">
+				<div class="login-img">
 					<img src="imgs/big-logo.png" alt="big-logo" />
+				</div>
+				<div class="login-content">
+					<form id="login_form" action="login/login-access.php" method="post">
+						<div class="form_div">
+							<label>Login:</label>
+							<input class="field_class" name="login_txt" type="email" placeholder="Su email" autofocus>
+							<label>Contrase&ntilde;a:</label>
+							<input id="pass" class="field_class" name="password_txt" type="password" placeholder="Su contrase&ntilde;a">
+							<button class="submit_class" type="submit" form="login_form" onclick="return validarLogin()">Entrar</button>
+						</div>
+					</form>
 				</div>
 			</div>
 		</main>
