@@ -49,7 +49,7 @@ p {
 
 :root {
 	/*Sirven como variables para los colores mas usados, se acceden con var(--COLOR)*/
-	--Accent: #2c9c00;
+	--Accent: #1d6600;
 	--Grey: #59646d;
 	--Light-Grey: #c0c7cc;
 	--Lightest-Grey: #eedede;
@@ -79,30 +79,36 @@ p {
 
 .nav-top li {
 	height: 15vh;
-	
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 
 .nav-top-item-1 {
-	width: 50%;
-	background-color: var(--Darker-Grey);
+	width: 70%;
+	background-color: var(--Accent);
 }
 
-.nav-top-item-big-logo, .nav-top-perfil {
-	width: 25%;
+.nav-top-item-big-logo{
+	width: 20%;
 	background-color: var(--Dark-Grey);
 }
+
+.nav-top-perfil {
+	padding-left: 100px;
+	width: 10%;
+	background-color: var(--Dark-Grey);
+
+}
+
 
 .nav-top-item-big-logo img {
 	width: 100%;
 }
 
 .nav-top-perfil img {
-	width: 120px;
-	height: 120px;
-	border-radius: 50%;
+	width: 45%;
+	border-radius: 30%;
 }
 
 .nav-top h1 {
