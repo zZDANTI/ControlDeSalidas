@@ -1,0 +1,32 @@
+.formulario{
+    display: flex;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 2%;
+    align-items: center;
+    height: 600px;
+}
+.salidaAlumno{
+    padding: 2%;
+    border: 1px solid #000;
+    width: 90%;
+    height: 90%px;
+    font-size: 18px;
+    background-color: lightblue;
+}
+.cuadros{
+    background-color: seagreen;
+    border: 1px solid #000;
+    width: 96%;
+    padding: 2%;
+    margin-bottom: 2%;
+    margin-top: 2%;
+}
+
+
+body{
+    background-color:beige;
+    margin: 0;
+	padding: 0;
+
+}
