@@ -1,0 +1,44 @@
+content{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 100px;
+	font-size: 20px;
+}
+.imagen_perfil{
+	display: flex;
+	align-items: center;
+	width: 750px;
+	height: 700px;
+}
+img{
+	margin-left: 150px;
+	width: 500px;
+	height: 500px;
+}
+.informacion_perfil{
+	background: yellow;
+	width: 500px;
+	height: 700px;
+}
+.informacion_perfil>div{
+	display: flex;
+	flex-direction: row;
+
+}
+
+.informacion_perfil>div>div>div{
+	padding: 10px;
+}
+.tamanyo{
+	margin-top: 5px;
+	margin-bottom: 8px;
+}
+.border{
+	font-size: 35px;
+	padding: 2px;
+	border: 2px solid gray;
+}
+.salir{
+	align-items: center;
+}
