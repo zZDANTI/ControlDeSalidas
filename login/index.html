@@ -1,30 +1,53 @@
 <!DOCTYPE html>
-<html lang="es">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="css/stylesheet.css" />
-		<title>Login | Control de Salidas</title>
-	</head>
-	<body>
-		<main>
-			<div class="login-main">
-				<div class="login-img">
-					<img src="imgs/big-logo.png" alt="big-logo" />
-				</div>
-				<div class="login-content">
-					<form id="login_form" action="login/login-access.php" method="post">
-						<div class="form_div">
-							<label>Login:</label>
-							<input class="field_class" name="login_txt" type="email" placeholder="Su email" autofocus>
-							<label>Contrase&ntilde;a:</label>
-							<input id="pass" class="field_class" name="password_txt" type="password" placeholder="Su contrase&ntilde;a">
-							<button class="submit_class" type="submit" form="login_form" onclick="return validarLogin()">Entrar</button>
-						</div>
-					</form>
-				</div>
+<html lang="en">
+<head>
+	<title>Login V3</title>
+	<meta charset="UTF-8">
+	
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="/Imgs/favicon/favicon_campico.ico"/>
+
+	<link rel="stylesheet" type="text/css" href="css/login.css">
+<!--===============================================================================================-->
+</head>
+<body>
+	
+	<div>
+		<div class="fondoLogin" style="background-image: url('/Imgs/login/fondo_login.jpg');">
+			<div class="cajaLogin">
+				
+				<form>
+
+					<span class="loginCampico">
+						<img src="/Imgs/login/logo_campico.jpg" alt="logoCampico" width="100%">
+					</span>
+
+					<span class="tituloLogin">
+						Login
+					</span>
+
+					<div class="loginFormulario" data-validate = "Enter username">
+						<input class="loginCuenta" type="text" name="username" placeholder="Email">
+						
+					</div>
+
+					<div class="loginFormulario" data-validate="Enter password">
+						<input class="loginCuenta" type="password" name="pass" placeholder="Contraseña">
+					</div>
+
+					
+					<div class="botonEntrar">
+						<button class="letraBoton">
+							Entrar
+						</button>
+					</div>
+
+					
+				</form>
 			</div>
-		</main>
-	</body>
+		</div>
+	</div>
+	
+
+</body>
 </html>

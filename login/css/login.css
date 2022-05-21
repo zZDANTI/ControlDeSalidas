@@ -1,0 +1,105 @@
+* {
+	margin: 0px; 
+	padding: 0px; 
+	box-sizing: border-box;
+}
+
+body, html {
+	height: 100%;
+	font-family: sans-serif;
+}
+
+/*---------------------Fondo Login---------------------------*/
+
+.fondoLogin {
+  width: 100%;  
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-position: center;
+  background-size: cover;
+}
+
+/*---------------------Caja Login ---------------------------*/
+
+.cajaLogin {
+  width: 500px;
+  border-radius: 30px;
+  padding: 10px 55px 37px 55px;
+  background: -webkit-linear-gradient(top, #25714d, rgb(48, 118, 53));
+}
+
+.loginCampico {
+  display: flex;
+  width: 120px;
+  height: 120px;
+  margin: 10% auto;
+}
+
+.loginCampico img{
+  border-radius: 30%;
+}
+
+.tituloLogin {
+  letter-spacing: 4px;
+  font-family: Latin Modern Roman;
+  font-size: 40px;
+  color: #fff;
+  line-height: 1.2;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 0 0 5% 0;
+  display: block;
+}
+
+/*-------------------Formulario Login---------------------------*/
+
+.loginFormulario {
+  width: 100%;
+  position: relative;
+  border-bottom: 2px solid rgba(255,255,255,0.24);
+  margin-bottom: 30px;
+}
+
+.loginCuenta {
+  font-size: 16px;
+  color: #fff;
+  display: block;
+  width: 100%;
+  height: 45px;
+  background: transparent;
+}
+
+.botonEntrar {
+  top: 1%;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/*-------------Boton Entrar------------------*/
+
+button {
+	border: none;
+	cursor: pointer;
+}
+
+
+.letraBoton {
+  font-size: 16px;
+  color: #000000;
+  min-width: 120px;
+  height: 50px;
+  border-radius: 25px;
+  background: -webkit-linear-gradient(bottom, #ffffffad, #fffbfb);
+}
+
+input {
+	outline: none;
+	border: none;
+
+}
+
+input::-webkit-input-placeholder { color: rgb(255, 255, 255);}
