@@ -11,30 +11,68 @@
 <!--===============================================================================================-->
 </head>
 <body>
+	<?php
+
+	$host='localhost';
+	$dbname='cotrol_de_salidas';
+	$user='';
+	$pass='';
+
+	try {
+
+		$pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
+
+		$pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+
+		$sql = "SELECT * from alumno where true";
+
+		$stmt = $pdo->prepare($sql);
+		$stmt->execute();
+
+		while ($rows = $stmt->fetchALL(PDO::FETCH_ASSOC)) {
+			echo "<tr>";
+			echo "<td>".$rows["NOMBRE"]."</td>";
+			echo "<td>".$rows["APELLIDO_1"]."</td>";
+			echo "</tr>";
+		}
+
+
+
+
+
+		$stmt = null;
+		$pdo = null;
+	}
+	catch(PDOException $e) {
+		echo $e->getMessage();
+	}
+	$stmt = null;
+	$pdo = null;
+	?>
 	
 	<div>
 		<div class="fondoLogin" style="background-image: url('/Imgs/login/fondo_login.jpg');">
 			<div class="cajaLogin">
 				
+				<span class="loginCampico">
+					<img src="/Imgs/login/logo_campico.jpg" alt="logoCampico" width="100%">
+				</span>
+
+				<span class="tituloLogin">
+					Login
+				</span>
+				
 				<form>
 
-					<span class="loginCampico">
-						<img src="/Imgs/login/logo_campico.jpg" alt="logoCampico" width="100%">
-					</span>
-
-					<span class="tituloLogin">
-						Login
-					</span>
-
+			
 					<div class="loginFormulario" data-validate = "Enter username">
-						<input class="loginCuenta" type="text" name="username" placeholder="Email">
-						
+						<input class="loginCuenta" type="text" name="email" placeholder="Email">
+
 					</div>
 
 					<div class="loginFormulario" data-validate="Enter password">
 						<input class="loginCuenta" type="password" name="pass" placeholder="Contraseña">
 					</div>
-
 					
 					<div class="botonEntrar">
 						<button class="letraBoton">
