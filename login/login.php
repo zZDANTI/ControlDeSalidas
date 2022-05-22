@@ -17,7 +17,7 @@ if(mysqli_num_rows($validar_login)>0){
     echo ' 
         <script> 
             alert("Usuario no existe");
-            window.location = "index.html";
+            window.location = "index.php";
         </script>
     ';
     exit;

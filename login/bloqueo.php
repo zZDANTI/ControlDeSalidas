@@ -6,7 +6,7 @@
         echo ' 
             <script> 
                 alert("Por favor debes iniciar sesión");
-                window.location = "index.html";
+                window.location = "index.php";
             </script>
         ';
         session_destroy();
