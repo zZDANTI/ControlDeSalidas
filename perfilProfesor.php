@@ -1,9 +1,14 @@
 <?php
 	include('php/bloqueo.php'); 	
 	include('php/conexion.php');
-	
-?>
+	$idUsuario = $_SESSION['usuario'];
 
+	$sql_personal = "SELECT * FROM personal WHERE email='$idUsuario'";
+
+	$stmt = $conexion->prepare($sql_personal);
+    $stmt->execute();
+	$row = $stmt->fetch(PDO::FETCH_ASSOC);
+?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -47,16 +52,19 @@
 			
 			<ul class="datos_perfil">
 				<li class="palabras">
-					NOMBRE: 
+
+
+					NOMBRE: <?php echo $row['nombre']; ?>
+
 				</li>
 				<li class="palabras">
-					1&#176;APELLIDO: 
+					1&#176;APELLIDO:  <?php echo $row['apellido_1']; ?>
 				</li>
 				<li class="palabras">
-					2&#176;APELLIDO: 
+					2&#176;APELLIDO: <?php echo $row['apellido_2']; ?>
 				</li>
 				<li class="palabras">
-					EMAIL: <?php echo ucwords($_SESSION['usuario']);?>
+					EMAIL: <?php echo $row['email']; ?>
 				</li>
 			</ul>
 				

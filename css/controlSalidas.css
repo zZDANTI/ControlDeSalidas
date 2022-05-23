@@ -181,8 +181,16 @@ body{
 
 @media (max-width: 768px){
 
-    .datos_perfil{
-        font-size: 30px;
+    .perfil{
+        width: 120%;
+    }
+
+    .palabras{
+        font-size: 20px;
+        
+    }
+    .perfilEntero img{
+        margin-bottom: 30px;
     }
 
 }
@@ -190,18 +198,22 @@ body{
 @media (max-width: 991px){
 
     .perfilEntero{
+        
         display: inline-block;
-        width: 90%;
+        width: 80%;
+    }
+    .palabras{
+        font-size: 35px;
     }
 
     .imagenPerfil{
         width: 60%;
     }
 
-    .salir{
-        display: inline-block;
+    .perfil{
+        width: 120%;
     }
-
+    
 }
 
 /*-----------------Fin Perfil Profesor-------------------*/

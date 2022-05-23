@@ -7,9 +7,13 @@ include('conexion.php');
 $email=$_POST["email"];
 $contrasenya=$_POST["contrasenya"];
 
-$validar_login = mysqli_query($conexion, "SELECT * FROM personal WHERE email='$email' and contrasenya='$contrasenya'");
+$validar_login = "SELECT * FROM personal WHERE email='$email' and contrasenya='$contrasenya'";
+$stmt = $conexion->prepare($validar_login);
+$stmt->execute();
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if(mysqli_num_rows($validar_login)>0){
+
+if($row >0){
     $_SESSION['usuario'] = $email;
     
 
