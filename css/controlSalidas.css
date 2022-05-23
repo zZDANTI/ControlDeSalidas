@@ -1,14 +1,12 @@
 /*-----------------Header-------------------*/
 
 * {
-    margin: 0;
-    box-sizing: border-box;
+	margin: 0px; 
+	padding: 0px; 
+	box-sizing: border-box;
 }
 
-body {
-    font-family: sans-serif;
-    padding: 90px 20px 0 ;
-}
+
 
 .header{
     background-color: rgb(10, 150, 10);
@@ -34,7 +32,8 @@ body {
 }
 
 .logo img{
-    width: 68%;
+    width: 100%;
+    height: 80px;
 }
 
 
@@ -75,9 +74,7 @@ body {
 @media (max-width: 768px){
     
     
-    body {
-        padding: 70px;
-    }
+    
     
     .header{
         height: 60px;
@@ -124,3 +121,87 @@ body {
     
 
 }
+
+/*-----------------Fin Header-------------------*/
+
+
+/*-----------------Perfil Profesor-------------------*/
+
+
+body{
+    background-color: #2a2e33;
+}
+
+.perfil{
+	width: 60%;
+	font-size: 20px;
+    align-items: center;
+    
+}
+
+.imagenPerfil{
+    margin-left: 200px;
+    min-width: 25%;
+	width: 25%;
+    height: 25%;
+    min-height: 25;
+    border-radius: 50%;
+}
+
+.datos_perfil{
+	list-style: none;
+	color: white;
+	
+}
+
+.palabras{
+    margin: 5%;
+    font-size: 50px;
+}
+
+.perfilEntero{
+    justify-content: space-between;
+    display: flex;
+    margin-top: 10%;
+}
+
+.salir{
+	font-size: 30px;
+	float: right;
+	padding: 4px;
+	border: 2px solid gray;
+	margin-right: 100px;
+    border-radius: 30%;
+}
+
+.salir a{
+	text-decoration:none;
+	color: white;
+}
+
+@media (max-width: 768px){
+
+    .datos_perfil{
+        font-size: 30px;
+    }
+
+}
+
+@media (max-width: 991px){
+
+    .perfilEntero{
+        display: inline-block;
+        width: 90%;
+    }
+
+    .imagenPerfil{
+        width: 60%;
+    }
+
+    .salir{
+        display: inline-block;
+    }
+
+}
+
+/*-----------------Fin Perfil Profesor-------------------*/

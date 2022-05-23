@@ -13,7 +13,7 @@
 	<meta charset="UTF-8">
 	
 <!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="../Imgs/favicon/favicon_campico.ico"/>
+	<link rel="icon" type="image/png" href="Imgs/favicon/favicon_campico.ico"/>
 
 	<link rel="stylesheet" type="text/css" href="css/login.css">
 <!--===============================================================================================-->
@@ -21,18 +21,18 @@
 <body>
 	
 	<div>
-		<div class="fondoLogin" style="background-image: url('../Imgs/login/fondo_login.jpg');">
+		<div class="fondoLogin" style="background-image: url('Imgs/login/fondo_login.jpg');">
 			<div class="cajaLogin">
 				
 				<span class="loginCampico">
-					<img src="../Imgs/login/logo_campico.jpg" alt="logoCampico" width="100%">
+					<img src="Imgs/login/logo_campico.jpg" alt="logoCampico" width="100%">
 				</span>
 
 				<span class="tituloLogin">
 					Login
 				</span>
 				
-				<form action="login.php" method="post">
+				<form action="php/login.php" method="post">
 
 			
 					<div class="loginFormulario" data-validate = "Enter username">

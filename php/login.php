@@ -11,13 +11,17 @@ $validar_login = mysqli_query($conexion, "SELECT * FROM personal WHERE email='$e
 
 if(mysqli_num_rows($validar_login)>0){
     $_SESSION['usuario'] = $email;
-    header("location: prueba.php");
+    
+
+    header("location: ../prueba.php");
+    
+
     exit;
 }else{
     echo ' 
         <script> 
             alert("Usuario no existe");
-            window.location = "index.php";
+            window.location = "../index.php";
         </script>
     ';
     exit;
