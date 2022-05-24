@@ -37,6 +37,5 @@
 
         </nav>
     </header>
-    <a href="php/cerrarSesion.php">Cerrar sesion</a>
 </body>
 </html>

@@ -9,7 +9,7 @@
 
 
 .header{
-    background-color: rgb(10, 150, 10);
+    background-color: rgb(13, 69, 182);
     height: 80px;
     position: fixed;
     width: 100%;
@@ -28,7 +28,6 @@
 .nav_link{
     color: white;
     text-decoration: none;
-
 }
 
 .logo img{
@@ -40,24 +39,25 @@
 
 .nav-menu{
     display: flex;
-    margin-right: 40px;
+    margin-right: 70px;
+    margin-top: 10px;
     list-style: none;
 }
 .nav-menu-item{
     font-size: 18px;
-    margin: 0 10px;
+    margin: 0 30px;
     line-height: 80px;
     text-transform: uppercase;
     width: max-content;
 }
 
 .nav-menu-link{
-    padding: 8px 12px;
+    padding: 30px 12px 5px 12px;
     border-radius: 3px;
 }
 
 .nav-menu-link:hover{
-    background-color: rgb(4, 94, 4);
+    background-color: rgb(5, 26, 88);
     transition: 0.5s;
 }
 
@@ -84,7 +84,7 @@
         flex-direction: column;
         align-items: center;
         margin-right: 20px;
-        background-color: rgb(26, 117, 8);
+        background-color: rgb(13, 69, 182);
         position: fixed;
         left: 0;
         top: 60px;
@@ -98,7 +98,7 @@
     }
     
     .nav-menu-link:hover{
-        background-color: rgb(4, 94, 4);
+        background-color: rgb(5, 26, 88);
         transition: 0.5s;
     }
 
@@ -129,8 +129,9 @@
 
 
 body{
-    background-color: #2a2e33;
+    background: -webkit-linear-gradient( #8f9fc5, rgb(32, 76, 198));
 }
+
 
 .perfil{
 	width: 60%;
@@ -163,21 +164,15 @@ body{
     justify-content: space-between;
     display: flex;
     margin-top: 10%;
+
 }
 
 .salir{
-	font-size: 30px;
 	float: right;
-	padding: 4px;
-	border: 2px solid gray;
+	margin: 43px;
 	margin-right: 100px;
-    border-radius: 30%;
 }
 
-.salir a{
-	text-decoration:none;
-	color: white;
-}
 
 @media (max-width: 768px){
 

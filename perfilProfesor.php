@@ -29,16 +29,16 @@
             </button>
             <ul class="nav-menu">
                 <li class="nav-menu-item">
-                    <a href="#" class="nav-menu-link nav_link">PonerAQUI</a>
+                    <a href="#" class="nav-menu-link nav_link"><img src="Imgs/logo_usuario.png" alt="" width="40px"></a>
                 </li>
                 <li class="nav-menu-item">
-                    <a href="#" class="nav-menu-link nav_link">PonerAQUI</a>
+                    <a href="#" class="nav-menu-link nav_link"><img src="Imgs/logo_usuario.png" alt="" width="40px"></a>
                 </li>
                 <li class="nav-menu-item">
-                    <a href="#" class="nav-menu-link nav_link">PonerAQUI</a>
+                    <a href="#" class="nav-menu-link nav_link"><img src="Imgs/logo_usuario.png" alt="" width="40px"></a>
                 </li>
                 <li class="nav-menu-item">
-                    <a href="perfilProfesor.php" class="nav-menu-link nav_link">Perfil</a>
+                    <a href="perfilProfesor.php" class="nav-menu-link nav_link"><img src="Imgs/logo_usuario.png" alt="" width="40px"></a>
                 </li>
             </ul>
 
@@ -76,8 +76,8 @@
 	</div>
 
 	<div class="salir">
-		<a href="php/cerrarSesion.php">Cerrar sesi&oacute;n</a>
+		<a href="php/cerrarSesion.php"><img src="Imgs/cerrar_sesion.png" alt="cerrar_sesion" width="50px"></a>
 	</div>
-	
+
 </body>
 </html>
