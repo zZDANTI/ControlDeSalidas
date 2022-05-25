@@ -36,10 +36,7 @@ try {
     $sql_where = "";
 
     $filters = [];
-    // if (!empty($ID_CURSO)) {
-    //     $sql_where .= " and ID_CURSO=:ID_CURSO";
-    //     $filters[":ID_CURSO"] = $ID_CURSO;
-    // }
+
     if (!empty($nombre)) {
         $sql_where .= " and nombre like :nombre";
         $filters[":nombre"] = "%".$nombre."%";
@@ -65,32 +62,24 @@ try {
     $sql .= $sql_where;
     $sql .= " limit ".($pagina-1)*$num_registros.", $num_registros";
 
-    //echo $sql;exit();
     $stmt = $pdo->prepare($sql);
     $stmt->execute($filters);
 
-
-    //$stmt->setFetchMode(PDO::FETCH_ASSOC);
-    // $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    //echo "<pre>";
-    //print_r($rows);
-    //echo "</pre>";
-
     ?>
 
-<!DOCTYPE html>
-<html lang="es">
+    <!DOCTYPE html>
+    <html lang="es">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="css/stylesheet.css" type="text/css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="css/stylesheet.css" type="text/css">
+    </head>
 
-<body>
-    <!-- <header>
+    <body>
+    <header>
         <nav class="nav-top">
             <ul>
                 <li class="nav-top-item-big-logo"><img src="../Imgs/big-logo.png" alt="big-logo.png"></li>
@@ -98,10 +87,10 @@ try {
                     <h1>Control de Salidas</h1>
                 </li>
                 <li class="nav-top-perfil"><a href="#" class="nav-top-perfil-button"><img
-                            src="../Imgs/default-profile-pic.jpg" alt="default-profile-pic"></a></li>
+                                src="../Imgs/default-profile-pic.jpg" alt="default-profile-pic"></a></li>
             </ul>
         </nav>
-    </header> -->
+    </header>
     <main>
         <div class="div-alumnos">
             <div class="alumnos-header">
@@ -110,50 +99,50 @@ try {
                     <label for=" nombre">Nombre:</label>
                     <input type="text" name="nombre" value="<?php echo $nombre?>">
 
-                    <!-- <label for="ID_CURSO">ID_CURSO:</label>
-                    <input type="text" name="ID_CURSO" pattern="[a-z]{,10}" value="<?php echo $ID_CURSO?>"> -->
-
                     <input type="submit" value="Buscar" name="buscar">
 
                     <br>
             </div>
             <table>
                 <thead>
-                    <tr>
-                        <th>
-                            <p>NIA </p>
-                        </th>
-                        <th>
-                            <p>NOMBRE </p>
-                        </th>
-                        <th>
-                            <p>APELLIDO 1 </p>
-                        </th>
-                        <th>
-                            <p>ID_CURSO</p>
-                        </th>
-                    </tr>
+                <tr>
+                    <th>
+                        <p>NIA | </p>
+                    </th>
+                    <th>
+                        <p>NOMBRE | </p>
+                    </th>
+                    <th>
+                        <p>APELLIDO 1 | </p>
+                    </th>
+                    <th>
+                        <p>ID_CURSO</p>
+                    </th>
+                </tr>
                 </thead>
                 <tbody>
 
-                    <div class="alumnos-body"></div>
+                <div class="alumnos-body"></div>
         </div>
         <?php
 
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        //echo "<pre>";
-        //print_r($row);
-        //echo "</pre>";
-        //echo $row['NIA'] . " - ";
-        //echo $row['NOMBRE'] . " - ";
-        //echo $row['APELLIDO_1'] . "<br/>";
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-        echo "<tr>";
-        echo "<td>".$row['nia']."</td>";
-        echo "<td>".$row['nombre']."</td>";
-        echo "<td>".$row['apellido_1']."</td>";
-        echo "<td>".$row['id_curso']."</td>";
-        echo '<td><label for="motivo">Motivo del control:</label>
+            echo '<form method="post" action="makeControl.php"';
+            echo "<tr>";
+            $nia = $row['nia'];
+            echo "<td>".$nia."</td>";
+            echo '<input type="hidden" name="nia" value="'.$nia.'">';
+            $nombre = $row['nombre'];
+            echo "<td>".$nombre."</td>";
+            echo '<input type="hidden" name="nombre" value="'.$nombre.'">';
+            $apellido_1 = $row['apellido_1'];
+            echo "<td>".$apellido_1."</td>";
+            echo '<input type="hidden" name="apellido_1" value="'.$apellido_1.'">';
+            $id_curso = $row['id_curso'];
+            echo "<td>".$id_curso."</td>";
+            echo '<input type="hidden" name="id_curso" value="'.$id_curso.'">';
+            echo '<td><label for="motivo">Motivo del control:</label>
             <select name="motivo" id="motivo">
                 <option value="ir a secretaria">ir a secretaria</option>
                 <option value="ir al bano">ir al bano</option>
@@ -162,10 +151,12 @@ try {
                 <option value="no tiene autorizacion" selected>no tiene autorizacion</option>
                 <option value="otro">otro</option>
              </select></td>';
-        echo '<td><button type="button" formaction="makeControl.php">Realizar control</button></td>';
-        echo "</tr>";
-    }
-    ?>
+            echo '<td><button type="submit" formaction="makeControl.php">Realizar control</button></td>';
+            echo "</tr>";
+            echo "</form>";
+        }
+
+        ?>
         </tbody>
         </table>
         <input type="submit" name="primera" value="<<">
@@ -176,6 +167,91 @@ try {
 
         </form>
         <?php
+        $sql = 'SELECT * from alumno a, control c where a.nia=c.id_alumno';
+        $sql .= $sql_where;
+        $sql .= " limit ".($pagina-1)*$num_registros.", $num_registros";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute($filters);
+
+        ?>
+        <div class="div-control-abierto">
+            <div class="alumnos-header">
+                <h1>CONTROLES ABIERTOS</h1>
+                <form method="post" action="index.php" class="main-form" margin-top="140px">
+                    <label for=" nombre">Nombre:</label>
+                    <input type="text" name="nombre" value="<?php echo $nombre?>">
+
+                    <input type="submit" value="Buscar" name="buscar">
+
+                    <br>
+            </div>
+            <table>
+                <thead>
+                <tr>
+                    <th>
+                        <p>NIA | </p>
+                    </th>
+                    <th>
+                        <p>NOMBRE | </p>
+                    </th>
+                    <th>
+                        <p>APELLIDO 1 | </p>
+                    </th>
+                    <th>
+                        <p>ID_CURSO | </p>
+                    </th>
+                    <th>
+                        <p>FECHA INICIO REGISTRO | </p>
+                    </th>
+                    <th>
+                        <p>FECHA LLEGADA | </p>
+                    </th>
+                    <th>
+                        <p>AUTORIZANTE REGISTRO | </p>
+                    </th>
+                    <th>
+                        <p>AUTORIZANTE FIN ACTIVIDAD | </p>
+                    </th>
+                    <th>
+                        <p>MOTIVO | </p>
+                    </th>
+                    <th>
+                        <p>AUTORIZADO</p>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <div class="alumnos-body"></div>
+        </div>
+        <?php
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            echo "<tr>";
+            echo "<td>".$row['nia']."</td>";
+            echo "<td>".$row['nombre']."</td>";
+            echo "<td>".$row['apellido_1']."</td>";
+            echo "<td>".$row['id_curso']."</td>";
+            echo "<td>".$row['fecha_registrar']."</td>";
+            echo "<td>".$row['fecha_llegada']."</td>";
+            echo "<td>".$row['id_personal_de_autorizacion_registrar']."</td>";
+            echo "<td>".$row['id_personal_de_autorizacion_fin_actividad']."</td>";
+            echo "<td>".$row['id_motivo']."</td>";
+            echo "<td>".$row['autorizado']."</td>";
+
+            echo "</tr>";
+        }
+        ?>
+        </tbody>
+        </table>
+        </form>
+    </main>
+
+    </body>
+    </html>
+    <?php
 
     # Para liberar los recursos utilizados en la consulta SELECT
     $stmt = null;
