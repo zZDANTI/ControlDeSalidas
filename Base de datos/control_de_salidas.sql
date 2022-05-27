@@ -46,15 +46,15 @@ insert  into `alumno`(`nia`,`nombre`,`apellido_1`,`apellido_2`,`id_curso`) value
 DROP TABLE IF EXISTS `control`;
 
 CREATE TABLE `control` (
-  `observaciones` char(200) DEFAULT NULL,
+  `observaciones` varchar(200) DEFAULT NULL,
   `fecha_registrar` datetime NOT NULL,
   `fecha_fin_actividad` datetime DEFAULT NULL,
   `fecha_llegada` datetime DEFAULT NULL,
-  `autorizado` tinyint(1) NOT NULL,
+  `autorizado` tinyint(1) unsigned zerofill NOT NULL,
   `id_alumno` char(8) NOT NULL,
   `id_personal_de_autorizacion_registrar` char(80) NOT NULL,
-  `id_personal_de_autorizacion_fin_actividad` char(80) NOT NULL,
-  `id_personal_de_autorizacion_llegada` char(80) NOT NULL,
+  `id_personal_de_autorizacion_fin_actividad` char(80) DEFAULT NULL,
+  `id_personal_de_autorizacion_llegada` char(80) DEFAULT NULL,
   `id_motivo` char(30) NOT NULL,
   PRIMARY KEY (`fecha_registrar`,`id_alumno`,`id_personal_de_autorizacion_registrar`),
   KEY `FK_control_alumno` (`id_alumno`),
@@ -64,12 +64,16 @@ CREATE TABLE `control` (
   KEY `FK_control_personal_de_autorizacion_llegada` (`id_personal_de_autorizacion_llegada`),
   CONSTRAINT `FK_control_alumno` FOREIGN KEY (`id_alumno`) REFERENCES `alumno` (`nia`) ON UPDATE CASCADE,
   CONSTRAINT `FK_control_motivo` FOREIGN KEY (`id_motivo`) REFERENCES `motivo` (`nombre`) ON UPDATE CASCADE,
-  CONSTRAINT `FK_control_personal_de_autorizacion_fin_actividad` FOREIGN KEY (`id_personal_de_autorizacion_fin_actividad`) REFERENCES `personal_de_autorizacion` (`email`) ON UPDATE CASCADE,
-  CONSTRAINT `FK_control_personal_de_autorizacion_llegada` FOREIGN KEY (`id_personal_de_autorizacion_llegada`) REFERENCES `personal_de_autorizacion` (`email`) ON UPDATE CASCADE,
-  CONSTRAINT `FK_control_personal_de_autorizacion_registrar` FOREIGN KEY (`id_personal_de_autorizacion_registrar`) REFERENCES `personal_de_autorizacion` (`email`) ON UPDATE CASCADE
+  CONSTRAINT `FK_control_personal_de_autorizacion_fin_actividad` FOREIGN KEY (`id_personal_de_autorizacion_fin_actividad`) REFERENCES `personal` (`email`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_control_personal_de_autorizacion_llegada` FOREIGN KEY (`id_personal_de_autorizacion_llegada`) REFERENCES `personal` (`email`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_control_personal_de_autorizacion_registrar` FOREIGN KEY (`id_personal_de_autorizacion_registrar`) REFERENCES `personal` (`email`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `control` */
+
+insert  into `control`(`observaciones`,`fecha_registrar`,`fecha_fin_actividad`,`fecha_llegada`,`autorizado`,`id_alumno`,`id_personal_de_autorizacion_registrar`,`id_personal_de_autorizacion_fin_actividad`,`id_personal_de_autorizacion_llegada`,`id_motivo`) values 
+('','2022-05-20 18:58:07',NULL,NULL,0,'1','victorsarabia@gmail.com',NULL,NULL,'Ir al baño'),
+(NULL,'2022-05-25 18:17:24',NULL,NULL,1,'3','victorsarabia@gmail.com',NULL,NULL,'Ir a secretaria');
 
 /*Table structure for table `curso` */
 
@@ -109,11 +113,11 @@ insert  into `motivo`(`nombre`,`fecha_de_baja`) values
 ('Se va de excursion',NULL),
 ('Sus padres se lo llevan',NULL);
 
-/*Table structure for table `personal_de_autorizacion` */
+/*Table structure for table `personal` */
 
-DROP TABLE IF EXISTS `personal_de_autorizacion`;
+DROP TABLE IF EXISTS `personal`;
 
-CREATE TABLE `personal_de_autorizacion` (
+CREATE TABLE `personal` (
   `email` char(80) NOT NULL,
   `nombre` char(30) NOT NULL,
   `apellido_1` char(20) NOT NULL,
@@ -123,9 +127,9 @@ CREATE TABLE `personal_de_autorizacion` (
   PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `personal_de_autorizacion` */
+/*Data for the table `personal` */
 
-insert  into `personal_de_autorizacion`(`email`,`nombre`,`apellido_1`,`apellido_2`,`contrasenya`,`tipo`) values 
+insert  into `personal`(`email`,`nombre`,`apellido_1`,`apellido_2`,`contrasenya`,`tipo`) values 
 ('domingo@gmail.com','Domingo','Lunes','Martes','domingo1234','secretaría'),
 ('isabelingles@gmail.com','isabel','ingles','nativo','ingles1234','profesor'),
 ('lamari@gmail.com','Mari','programacion','sitemas','systemout1234','administrador'),

@@ -1,5 +1,4 @@
 <?php
-// require 'auth.inc.php';
 
 //echo "<pre>";
 //print_r($_POST);
@@ -151,7 +150,9 @@ try {
                 <option value="no tiene autorizacion" selected>no tiene autorizacion</option>
                 <option value="otro">otro</option>
              </select></td>';
-            echo '<td><button type="submit" formaction="makeControl.php">Realizar control</button></td>';
+            echo '<td><label for="observaciones"> Observaciones: </label></td>';
+            echo '<td><textarea name="observaciones" maxlength="500"></textarea></td>';
+            echo '<td><button type="submit" formaction="makeControl.php" name="submit">Realizar control</button></td>';
             echo "</tr>";
             echo "</form>";
         }
@@ -243,6 +244,15 @@ try {
 
             echo "</tr>";
         }
+        // Paginador
+        if (isset($_POST["primera"]) && $pagina>1)
+            $pagina = 1;
+        if (isset($_POST["anterior"]) && $pagina>1)
+            $pagina--;
+        if (isset($_POST["siguiente"]) && $pagina<=$total_paginas)
+            $pagina++;
+        if (isset($_POST["ultima"]) && $pagina<=$total_paginas)
+            $pagina = $total_paginas;
         ?>
         </tbody>
         </table>
