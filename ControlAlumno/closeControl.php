@@ -2,14 +2,14 @@
 // Recogida de parámetros
 $nia = isset($_POST['nia'])? $_POST['nia']:null;
 $pers_autorizacion = "domingo@gmail.com";
-$submit_insert = isset($_POST['closeControl']);
+$submit = isset($_POST['closeControl']);
 
 echo "<pre>";
 print_r($_POST);
 echo "</pre>";
 
 // Operación de inserción
-if ($submit_insert) {
+if ($submit) {
     $host='localhost';
     $dbname='control_de_salidas';
     $user='root';
@@ -24,12 +24,12 @@ if ($submit_insert) {
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         # Revisar si el alumno tiene controles abiertos
-        $is_control = 'SELECT id_alumno FROM control where fecha_registrar IS NULL AND fecha_llegada IS NOT NULL';
+        $is_control = 'SELECT id_alumno FROM control WHERE fecha_registrar IS NULL AND fecha_llegada IS NOT NULL AND id_alumno="'.$nia.'"';
         $stmt = $pdo->prepare($is_control);
         $is_insert = $stmt->execute();
         $is_control_array = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($nia != $is_control_array['id_alumno']) {
+        if (!($is_control_array['id_alumno'])==null) {
             echo '<script>
                     alert("El alumno no tiene ningun control abierto, operacion cancelada")
                   </script>';

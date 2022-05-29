@@ -6,14 +6,14 @@ $apellido_1 = isset($_POST['apellido_1'])? $_POST['apellido_1']:null;
 $motivo_control = isset($_POST['motivo'])? $_POST['motivo']:null;
 $pers_autorizacion_registrar = "victorsarabia@gmail.com";
 $observaciones = isset($_POST['observaciones'])? $_POST['observaciones']:null;
-$submit_insert = isset($_POST['makeControl']);
+$submit = isset($_POST['makeControl']);
 
 echo "<pre>";
 print_r($_POST);
 echo "</pre>";
 
 // Operación de inserción
-if ($submit_insert) {
+if ($submit) {
     $host='localhost';
     $dbname='control_de_salidas';
     $user='root';
@@ -28,12 +28,12 @@ if ($submit_insert) {
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         # Revisar si el alumno tiene controles abiertos
-        $is_control = 'SELECT id_alumno FROM control where fecha_llegada IS NULL';
+        $is_control = 'SELECT id_alumno FROM control WHERE fecha_llegada IS NULL AND id_alumno="'.$nia.'"';
         $stmt = $pdo->prepare($is_control);
         $is_insert = $stmt->execute();
         $is_control_array = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($nia == $is_control_array['id_alumno']) {
+        if ($is_control_array['id_alumno']!=null) {
             echo '<script>
                     alert("El alumno ya tiene un control abierto, operacion cancelada")
                   </script>';
