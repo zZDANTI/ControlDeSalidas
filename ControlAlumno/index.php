@@ -101,6 +101,7 @@ try {
                     <input type="submit" value="Buscar" name="buscar">
 
                     <br>
+                </form>
             </div>
             <table>
                 <thead>
@@ -121,45 +122,47 @@ try {
                 </thead>
                 <tbody>
 
-                <div class="alumnos-body"></div>
+                <div class="alumnos-body">
+                    <?php
+
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+                        echo '<form method="post" action="makeControl.php">';
+                        echo "<tr>";
+                        $nia = $row['nia'];
+                        echo "<td>".$nia."</td>";
+                        echo '<input type="hidden" name="nia" value="'.$nia.'">';
+                        $nombre = $row['nombre'];
+                        echo "<td>".$nombre."</td>";
+                        echo '<input type="hidden" name="nombre" value="'.$nombre.'">';
+                        $apellido_1 = $row['apellido_1'];
+                        echo "<td>".$apellido_1."</td>";
+                        echo '<input type="hidden" name="apellido_1" value="'.$apellido_1.'">';
+                        $id_curso = $row['id_curso'];
+                        echo "<td>".$id_curso."</td>";
+                        echo '<input type="hidden" name="id_curso" value="'.$id_curso.'">';
+                        echo '<td><button type="submit" formaction="seeMore.php" name="seeMore">Mas Info</button></td>';
+                        echo '<td><label for="motivo">Motivo del control:</label>
+                            <select name="motivo" id="motivo">
+                                <option value="ir a secretaria">ir a secretaria</option>
+                                <option value="ir al bano">ir al bano</option>
+                                <option value="se va de excursion">se va de excursion</option>
+                                <option value="sus padres se lo llevan">sus padres se lo llevan</option>
+                                <option value="no tiene autorizacion" selected>no tiene autorizacion</option>
+                                <option value="otro">otro</option>
+                             </select></td>';
+                        echo '<td><label for="observaciones"> Observaciones: </label></td>';
+                        echo '<td><textarea name="observaciones" maxlength="500"></textarea></td>';
+                        echo '<td><button type="submit" formaction="makeControl.php" name="makeControl">Realizar control</button></td>';
+                        echo "</tr>";
+                        echo "</form>";
+                    }
+
+                    ?>
+                </div>
+                </tbody>
+            </table>
         </div>
-        <?php
-
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-            echo '<form method="post" action="makeControl.php"';
-            echo "<tr>";
-            $nia = $row['nia'];
-            echo "<td>".$nia."</td>";
-            echo '<input type="hidden" name="nia" value="'.$nia.'">';
-            $nombre = $row['nombre'];
-            echo "<td>".$nombre."</td>";
-            echo '<input type="hidden" name="nombre" value="'.$nombre.'">';
-            $apellido_1 = $row['apellido_1'];
-            echo "<td>".$apellido_1."</td>";
-            echo '<input type="hidden" name="apellido_1" value="'.$apellido_1.'">';
-            $id_curso = $row['id_curso'];
-            echo "<td>".$id_curso."</td>";
-            echo '<input type="hidden" name="id_curso" value="'.$id_curso.'">';
-            echo '<td><label for="motivo">Motivo del control:</label>
-            <select name="motivo" id="motivo">
-                <option value="ir a secretaria">ir a secretaria</option>
-                <option value="ir al bano">ir al bano</option>
-                <option value="se va de excursion">se va de excursion</option>
-                <option value="sus padres se lo llevan">sus padres se lo llevan</option>
-                <option value="no tiene autorizacion" selected>no tiene autorizacion</option>
-                <option value="otro">otro</option>
-             </select></td>';
-            echo '<td><label for="observaciones"> Observaciones: </label></td>';
-            echo '<td><textarea name="observaciones" maxlength="500"></textarea></td>';
-            echo '<td><button type="submit" formaction="makeControl.php" name="submit">Realizar control</button></td>';
-            echo "</tr>";
-            echo "</form>";
-        }
-
-        ?>
-        </tbody>
-        </table>
         <input type="submit" name="primera" value="<<">
         <input type="submit" name="anterior" value="<">
         <input type="text" name="pagina" value="<?php echo $pagina ?>">
@@ -167,16 +170,19 @@ try {
         <input type="submit" name="ultima" value=">>">
 
         </form>
-        <?php
-        $sql = 'SELECT * from alumno a, control c where a.nia=c.id_alumno';
-        $sql .= $sql_where;
-        $sql .= " limit ".($pagina-1)*$num_registros.", $num_registros";
 
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute($filters);
-
-        ?>
         <div class="div-control-abierto">
+
+            <?php
+            $sql = 'SELECT * from alumno a, control c where a.nia=c.id_alumno and c.fecha_llegada is null order by fecha_registrar desc';
+            $sql .= $sql_where;
+            $sql .= " limit ".($pagina-1)*$num_registros.", $num_registros";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute($filters);
+
+            ?>
+
             <div class="alumnos-header">
                 <h1>CONTROLES ABIERTOS</h1>
                 <form method="post" action="index.php" class="main-form" margin-top="140px">
@@ -186,6 +192,7 @@ try {
                     <input type="submit" value="Buscar" name="buscar">
 
                     <br>
+                </form>
             </div>
             <table>
                 <thead>
@@ -206,7 +213,7 @@ try {
                         <p>FECHA INICIO REGISTRO | </p>
                     </th>
                     <th>
-                        <p>FECHA LLEGADA | </p>
+                        <p>FECHA FIN ACTIVIDAD | </p>
                     </th>
                     <th>
                         <p>AUTORIZANTE REGISTRO | </p>
@@ -224,39 +231,66 @@ try {
                 </thead>
                 <tbody>
 
-                <div class="alumnos-body"></div>
+                <div class="alumnos-body">
+
+                    <?php
+
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+                        echo '<form method="post" action="closeControl.php">';
+                        echo "<tr>";
+                        $nia = $row['nia'];
+                        echo "<td>".$nia."</td>";
+                        echo '<input type="hidden" name="nia" value="'.$nia.'">';
+                        $nombre = $row['nombre'];
+                        echo "<td>".$nombre."</td>";
+                        echo '<input type="hidden" name="nombre" value="'.$nombre.'">';
+                        $apellido_1 = $row['apellido_1'];
+                        echo "<td>".$apellido_1."</td>";
+                        echo '<input type="hidden" name="apellido_1" value="'.$apellido_1.'">';
+                        $id_curso = $row['id_curso'];
+                        echo "<td>".$id_curso."</td>";
+                        echo '<input type="hidden" name="id_curso" value="'.$id_curso.'">';
+                        $fecha_registrar = $row['fecha_registrar'];
+                        echo "<td>".$fecha_registrar."</td>";
+                        echo '<input type="hidden" name="fecha_registrar" value="'.$fecha_registrar.'">';
+                        $fecha_fin_actividad = $row['fecha_fin_actividad'];
+                        echo "<td>".$fecha_fin_actividad."</td>";
+                        echo '<input type="hidden" name="fecha_fin_actividad" value="'.$fecha_fin_actividad.'">';
+                        $id_personal_de_autorizacion_registrar = $row['id_personal_de_autorizacion_registrar'];
+                        echo "<td>".$id_personal_de_autorizacion_registrar."</td>";
+                        echo '<input type="hidden" name="id_personal_de_autorizacion_registrar" value="'.$id_personal_de_autorizacion_registrar.'">';
+                        $id_personal_de_autorizacion_fin_actividad = $row['id_personal_de_autorizacion_fin_actividad'];
+                        echo "<td>".$id_personal_de_autorizacion_fin_actividad."</td>";
+                        echo '<input type="hidden" name="id_personal_de_autorizacion_fin_actividad" value="'.$id_personal_de_autorizacion_fin_actividad.'">';
+                        $id_motivo = $row['id_motivo'];
+                        echo "<td>".$id_motivo."</td>";
+                        echo '<input type="hidden" name="id_motivo" value="'.$id_motivo.'">';
+                        $autorizado = $row['autorizado'];
+                        echo "<td>".$autorizado."</td>";
+                        echo '<input type="hidden" name="autorizado" value="'.$autorizado.'">';
+                        echo '<td><button type="submit" formaction="closeControl.php" name="closeControl">Cerrar control</button></td>';
+                        //TODO el control selecciona siempre el ultimo registro
+                        echo "</tr>";
+                        echo "</form>";
+                    }
+                    ?>
+                </div>
+                </tbody>
+            </table>
+            </form>
+            <?php
+            // Paginador
+            if (isset($_POST["primera"]) && $pagina>1)
+                $pagina = 1;
+            if (isset($_POST["anterior"]) && $pagina>1)
+                $pagina--;
+            if (isset($_POST["siguiente"]) && $pagina<=$total_paginas)
+                $pagina++;
+            if (isset($_POST["ultima"]) && $pagina<=$total_paginas)
+                $pagina = $total_paginas;
+            ?>
         </div>
-        <?php
-
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-            echo "<tr>";
-            echo "<td>".$row['nia']."</td>";
-            echo "<td>".$row['nombre']."</td>";
-            echo "<td>".$row['apellido_1']."</td>";
-            echo "<td>".$row['id_curso']."</td>";
-            echo "<td>".$row['fecha_registrar']."</td>";
-            echo "<td>".$row['fecha_llegada']."</td>";
-            echo "<td>".$row['id_personal_de_autorizacion_registrar']."</td>";
-            echo "<td>".$row['id_personal_de_autorizacion_fin_actividad']."</td>";
-            echo "<td>".$row['id_motivo']."</td>";
-            echo "<td>".$row['autorizado']."</td>";
-
-            echo "</tr>";
-        }
-        // Paginador
-        if (isset($_POST["primera"]) && $pagina>1)
-            $pagina = 1;
-        if (isset($_POST["anterior"]) && $pagina>1)
-            $pagina--;
-        if (isset($_POST["siguiente"]) && $pagina<=$total_paginas)
-            $pagina++;
-        if (isset($_POST["ultima"]) && $pagina<=$total_paginas)
-            $pagina = $total_paginas;
-        ?>
-        </tbody>
-        </table>
-        </form>
     </main>
 
     </body>
