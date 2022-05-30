@@ -29,10 +29,10 @@
             </button>
             <ul class="nav-menu">
                 <li class="nav-menu-item">
-                    <a href="#" class="nav-menu-link nav_link"><img src="Imgs/logo_usuario.png" alt="" width="40px"></a>
+                    <a href="#" class="nav-menu-link nav_link"><img src="Imgs/control_home.png" alt="" width="40px"></a>
                 </li>
                 <li class="nav-menu-item">
-                    <a href="#" class="nav-menu-link nav_link"><img src="Imgs/logo_usuario.png" alt="" width="40px"></a>
+                    <a href="#" class="nav-menu-link nav_link"><img src="Imgs/icono_control.png" alt="" width="40px"></a>
                 </li>
                 <li class="nav-menu-item">
                     <a href="#" class="nav-menu-link nav_link"><img src="Imgs/logo_usuario.png" alt="" width="40px"></a>
@@ -52,10 +52,7 @@
 			
 			<ul class="datos_perfil">
 				<li class="palabras">
-
-
 					NOMBRE: <?php echo $row['nombre']; ?>
-
 				</li>
 				<li class="palabras">
 					1&#176;APELLIDO:  <?php echo $row['apellido_1']; ?>
@@ -67,10 +64,6 @@
 					EMAIL: <?php echo $row['email']; ?>
 				</li>
 			</ul>
-				
-			
-			
-		
 		</div>
 		
 	</div>
