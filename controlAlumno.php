@@ -43,34 +43,7 @@
             </ul>
 
         </nav>
-    </header>
-
-	<div class="perfilEntero">
-		<img src="Imgs/icono_usuario.jpg" class="imagenPerfil">
+	</header>
 	
-		<div class="perfil">
-			
-			<ul class="datos_perfil">
-				<li class="palabras">
-					NOMBRE: <?php echo $row['nombre']; ?>
-				</li>
-				<li class="palabras">
-					1&#176;APELLIDO:  <?php echo $row['apellido_1']; ?>
-				</li>
-				<li class="palabras">
-					2&#176;APELLIDO: <?php echo $row['apellido_2']; ?>
-				</li>
-				<li class="palabras">
-					EMAIL: <?php echo $row['email']; ?>
-				</li>
-			</ul>
-		</div>
-		
-	</div>
-
-	<div class="salir">
-		<a href="php/cerrarSesion.php"><img src="Imgs/cerrar_sesion.png" alt="cerrar_sesion" width="50px"></a>
-	</div>
-
 </body>
 </html>

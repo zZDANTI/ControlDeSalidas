@@ -17,7 +17,7 @@ if($row >0){
     $_SESSION['usuario'] = $email;
     
 
-    header("location: ../prueba.php");
+    header("location: ../controlAlumno.php");
     
 
     exit;
