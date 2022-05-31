@@ -25,10 +25,10 @@ $num_registros=15;
 try {
     # MySQL con PDO_MYSQL
     # Para que la conexion al mysql utilice las collation UTF-8 añadir charset=utf8 al string de la conexion.
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
+    $conexion = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
 
     # Para que genere excepciones a la hora de reportar errores.
-    $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+    $conexion->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 
     // Total registros
     $sql_count = 'SELECT count(*) as total from alumno where true';
@@ -41,7 +41,7 @@ try {
         $filters[":nombre"] = "%".$nombre."%";
     }
 
-    $stmt = $pdo->prepare($sql_count.$sql_where);
+    $stmt = $conexion->prepare($sql_count.$sql_where);
     $stmt->execute($filters);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     $total_registros = $row["total"];
@@ -61,7 +61,7 @@ try {
     $sql .= $sql_where;
     $sql .= " limit ".($pagina-1)*$num_registros.", $num_registros";
 
-    $stmt = $pdo->prepare($sql);
+    $stmt = $conexion->prepare($sql);
     $stmt->execute($filters);
 
     ?>
@@ -194,7 +194,7 @@ try {
                 $sql .= $sql_where;
                 $sql .= " limit ".($pagina-1)*$num_registros.", $num_registros";
 
-                $stmt = $pdo->prepare($sql);
+                $stmt = $conexion->prepare($sql);
                 $stmt->execute($filters);
 
                 ?>
@@ -315,11 +315,11 @@ try {
 
     # Para liberar los recursos utilizados en la consulta SELECT
     $stmt = null;
-    $pdo = null;
+    $conexion = null;
 }
 catch(PDOException $e) {
     echo $e->getMessage();
 
     $stmt = null;
-    $pdo = null;
+    $conexion = null;
 }
