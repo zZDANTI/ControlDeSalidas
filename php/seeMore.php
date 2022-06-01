@@ -8,12 +8,14 @@ $nombre = isset($_POST['nombre'])? $_POST['nombre']:null;
 $ape_1 = isset($_POST['ape_1'])? $_POST['ape_1']:null;
 $ape_2 = isset($_POST['ape_2'])? $_POST['ape_2']:null;
 $id_curso = isset($_POST['id_curso'])? $_POST['id_curso']:null;
+
+// Combrueba desde donde se envia el POST
 if (isset($_POST['seeMore'])) {
-$submit=true;
-$submit_type="seeMore";
+    $submit=true;
+    $submit_type="seeMore";
 } elseif (isset($_POST['updateAlumno'])) {
-$submit=true;
-$submit_type="updateAlumno";
+    $submit=true;
+    $submit_type="updateAlumno";
 }
 
 echo "type".$submit_type;
@@ -27,24 +29,23 @@ echo "</pre>";
 if ($submit) {
     try {
         # Revisar si el alumno existe
-        $is_control = 'SELECT id_alumno FROM control WHERE id_alumno="'.$nia.'"';
+        $is_control = 'SELECT nia FROM alumno WHERE nia="'.$nia.'"';
         $stmt = $conexion->prepare($is_control);
         $is_insert = $stmt->execute();
         $is_control_array = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($is_control_array['id_alumno']==null) {
-            echo '<script>
-                    alert("El alumno no existe.")
-                    window.location = "../controlAlumno.php";
-                  </script>';
-            exit();
-            exit();
+        if ($is_control_array['nia']==null) {
+            echo "asdasdasd";
+//            echo '<script>
+//                    alert("El alumno no existe.")
+//                    window.location = "../controlAlumno.php";
+//                  </script>';
+//            exit();
         }
 
         if ($submit_type=='seeMore') {
 
             $sql = 'SELECT * FROM alumno WHERE nia=:nia';
-//        echo $sql;
             $values = [
                 ":nia" => $nia
             ];
@@ -62,21 +63,20 @@ if ($submit) {
             $stmt = null;
             $conexion = null;
             ?>
-            <form action="seeMore.php">
-                <label for="nia">NIA</label><br>
-                <input type="text" name="nia" value="<?php $nia?>"><br>
+            <form action="seeMore.php" method="post">
+                <input type="hidden" name="nia" value="<?php echo $nia?>">
                 <label for="nombre">Nombre:</label><br>
-                <input type="text" name="nombre" value="<?php $nombre?>"><br>
+                <input type="text" name="nombre" value="<?php echo $nombre?>"><br>
                 <label for="ape_1">Apellido 1</label><br>
-                <input type="text" name="ape_1" value="<?php $ape_1?>"><br>
+                <input type="text" name="ape_1" value="<?php echo $ape_1?>"><br>
                 <label for="ape_2">Apellido 2</label><br>
-                <input type="text" name="ape_2" value="<?php $ape_2?>"><br>
+                <input type="text" name="ape_2" value="<?php echo $ape_2?>"><br>
                 <label for="id_curso">Curso</label><br>
                 <select name="id_curso">
-                    <option value="1">1º</option>
-                    <option value="2">2º</option>
-                    <option value="3">3º</option>
-                    <option value="4">4º</option>
+                    <option value="1º ESO">1º</option>
+                    <option value="2º ESO">2º</option>
+                    <option value="3º ESO">3º</option>
+                    <option value="4º ESO">4º</option>
                     <option value="otro">otro</option>
                 </select>
                 <input type="submit" name="updateAlumno">
@@ -85,8 +85,8 @@ if ($submit) {
             <?php
         } else {
             # Insertar registros
-            $sql = 'UPDATE alumno SET nia=:nia, nombre=:nombre, apellido_1=:ape_1, apellido_2=:ape_2, id_curso=:id_curso
-                WHERE id_alumno=:nia';
+            $sql = 'UPDATE alumno SET nombre=:nombre, apellido_1=:ape_1, apellido_2=:ape_2, id_curso=:id_curso
+                WHERE nia=:nia';
             echo $sql;
             $values = [
                 ":nia" => $nia,
@@ -103,19 +103,22 @@ if ($submit) {
             $conexion = null;
 
             if ($is_insert) {
-                echo '<script>
-                    alert("Alumno editado correctamente.")
-                    window.location = "../controlAlumno.php";
-                  </script>';
-                exit();
+                echo "bien";
+//                echo '<script>
+//                    alert("Alumno editado correctamente.")
+//                    window.location = "../controlAlumno.php";
+//                  </script>';
+//                exit();
             } else {
-                echo '<script>
-                    alert("Ha habido un problema, operacion cancelada.")
-                    window.location = "../controlAlumno.php";
-                  </script>';
-                exit();
+                echo "Mal";
+//                echo '<script>
+//                    alert("Ha habido un problema, operacion cancelada.")
+//                    window.location = "../controlAlumno.php";
+//                  </script>';
+//                exit();
             }
         }
+
 
     } catch (PDOException $e) {
         echo $e->getMessage();

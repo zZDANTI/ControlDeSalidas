@@ -5,7 +5,7 @@ include('conexion.php');
 // Recogida de parámetros
 $nia = isset($_POST['nia'])? $_POST['nia']:null;
 $pers_autorizacion = $_SESSION['usuario'];
-$submit = isset($_POST['closeControl']);
+$submit = isset($_POST['closeAct']);
 
 echo "<pre>";
 print_r($_POST);
@@ -17,21 +17,21 @@ if ($submit) {
     try {
 
         # Revisar si el alumno tiene controles abiertos
-        $is_control = 'SELECT id_alumno FROM control WHERE fecha_registrar IS NULL AND fecha_llegada IS NOT NULL AND id_alumno="'.$nia.'"';
+        $is_control = 'SELECT id_alumno FROM control WHERE fecha_registrar IS NULL AND fecha_fin_actividad IS NULL AND fecha_llegada IS NOT NULL AND id_alumno="'.$nia.'"';
         $stmt = $conexion->prepare($is_control);
         $is_insert = $stmt->execute();
         $is_control_array = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!($is_control_array['id_alumno'])==null) {
             echo '<script>
-                    alert("El alumno no tiene ningun control abierto.")
+                    alert("El alumno no tiene ningun control pendiente de validar.")
                     window.location = "../controlAlumno.php";
                   </script>';
             exit();
         }
 
         # Insertar registros
-        $sql = 'UPDATE control SET fecha_llegada=NOW(), id_personal_llegada=:pers_autorizacion
+        $sql = 'UPDATE control SET fecha_fin_actividad=NOW(), id_personal_fin_actividad=:pers_autorizacion
                 WHERE id_alumno=:nia';
         echo $sql;
         $values = [
@@ -47,7 +47,7 @@ if ($submit) {
 
         if ($is_insert) {
             echo '<script>
-                    alert("Control cerrado correctamente.")
+                    alert("Control validado correctamente.")
                     window.location = "../controlAlumno.php";
                   </script>';
             exit();

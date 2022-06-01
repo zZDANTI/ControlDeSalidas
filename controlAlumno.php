@@ -13,13 +13,20 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
 // $ID_CURSO = isset($_POST["ID_CURSO"])? $_POST["ID_CURSO"]:null;
 $nombre = isset($_POST["nombre"])? $_POST["nombre"]:null;
 $pagina = isset($_POST["pagina"])? $_POST["pagina"]:1;
-$num_registros=10;
+$num_registros=13;
 
 try {
 
-// Total registros
+    // Motivos
+    $motivos = 'SELECT nombre FROM motivo';
+
+    $stmtMotivos = $conexion->prepare($motivos);
+    $stmtMotivos->execute();
+//    $arrMotivos = $stmtMotivos->fetch(PDO::FETCH_ASSOC);
+
+    // Total registros
     $sql_count = 'SELECT count(*) as total from alumno where true';
-    $sql_where = "";
+    $sql_where  = "";
 
     $filters = [];
 
@@ -39,9 +46,9 @@ try {
         $pagina = 1;
     if (isset($_POST["anterior"]) && $pagina>1)
         $pagina--;
-    if (isset($_POST["siguiente"]) && $pagina<=$total_paginas)
+    if (isset($_POST["siguiente"]) && $pagina<$total_paginas)
         $pagina++;
-    if (isset($_POST["ultima"]) && $pagina<=$total_paginas)
+    if (isset($_POST["ultima"]) && $pagina<$total_paginas)
         $pagina = $total_paginas;
 
     $sql = 'SELECT * from alumno where true';
@@ -51,11 +58,11 @@ try {
     $stmt = $conexion->prepare($sql);
     $stmt->execute($filters);
 
+
     ?>
 
     <!DOCTYPE html>
     <html lang="es">
-
     <head>
         <title>Control Alumno</title>
         <link rel="stylesheet" type="text/css" href="css/controlSalidas.css">
@@ -63,12 +70,7 @@ try {
         <script defer src="js/header.js"></script>
         <link rel="stylesheet" href="css/stylesheet.css" type="text/css">
     </head>
-
-
-
-
     <body>
-
     <header class="header">
         <nav class="nav">
             <a href="#" class="logo"><img src="Imgs/big-logo.png" alt="logoCampico"></a>
@@ -80,7 +82,7 @@ try {
                     <a href="controlAlumno.php" class="nav-menu-link nav_link"><img src="Imgs/control_home.png" alt="" width="40px"></a>
                 </li>
                 <li class="nav-menu-item">
-                    <a href="#" class="nav-menu-link nav_link"><img src="Imgs/icono_control.png" alt="" width="40px"></a>
+                    <a href="controlesCerrados.php" class="nav-menu-link nav_link"><img src="Imgs/icono_control.png" alt="" width="40px"></a>
                 </li>
                 <li class="nav-menu-item">
                     <a href="#" class="nav-menu-link nav_link"><img src="Imgs/logo_usuario.png" alt="" width="40px"></a>
@@ -92,7 +94,6 @@ try {
 
         </nav>
     </header>
-
     <main>
         <div class="div-alumnos">
             <div class="alumnos-header">
@@ -145,15 +146,19 @@ try {
                         echo "<td>".$id_curso."</td>";
                         echo '<input type="hidden" name="id_curso" value="'.$id_curso.'">';
                         echo '<td><button type="submit" formaction="php/seeMore.php" name="seeMore">Mas Info</button></td>';
-                        echo '<td><label for="motivo">Motivo del control:</label>
-                                <select name="motivo" id="motivo">
-                                    <option value="Ir a secretaria">ir a secretaria</option>
+                        echo '<td><label for="motivo">Motivo del control:</label>';
+                        echo  '<select name="motivo">';
+                        echo '<option value="Ir a secretaria">ir a secretaria</option>
                                     <option value="Ir al baño">ir al bano</option>
                                     <option value="Se va de excursion">se va de excursion</option>
                                     <option value="Sus padres se lo llevan">sus padres se lo llevan</option>
                                     <option value="No tiene autorizacion" selected>no tiene autorizacion</option>
-                                    <option value="Otro">otro</option>
-                                </select></td>';
+                                    <option value="Otro">otro</option>';
+//                        foreach ($stmtMotivos->fetch(PDO::FETCH_ASSOC) as $motivo) {
+//                            echo $motivo;
+//                            echo '<option value="'.$motivo.'">'.$motivo.'</option>';
+//                        };
+                        echo '</select></td>';
                         echo '<td><label for="observaciones"> Observaciones: </label></td>';
                         echo '<td><textarea name="observaciones" maxlength="500"></textarea></td>';
                         echo '<td><button type="submit" formaction="php/makeControl.php" name="makeControl">Realizar control</button></td>';
@@ -166,12 +171,12 @@ try {
                 </tbody>
             </table>
         </div>
-        <input type="submit" name="primera" value="<<">
-        <input type="submit" name="anterior" value="<">
-        <input type="text" name="pagina" value="<?php echo $pagina ?>">
-        <input type="submit" name="siguiente" value=">">
-        <input type="submit" name="ultima" value=">>">
-
+        <form action="controlAlumno.php" class="paginador" method="post">
+            <input type="submit" name="primera" value="<<">
+            <input type="submit" name="anterior" value="<">
+            <input type="text" name="pagina" value="<?php echo $pagina ?>">
+            <input type="submit" name="siguiente" value=">">
+            <input type="submit" name="ultima" value=">>">
         </form>
 
         <div class="div-control-abierto">
@@ -188,14 +193,6 @@ try {
 
             <div class="alumnos-header">
                 <h1>CONTROLES ABIERTOS</h1>
-<!--                <form method="post" action="controlAlumno.php" class="main-form" margin-top="140px">-->
-<!--                    <label for=" nombre">Nombre:</label>-->
-<!--                    <input type="text" name="nombre" value="--><?php //echo $nombre?><!--">-->
-<!---->
-<!--                    <input type="submit" value="Buscar" name="buscar">-->
-<!---->
-<!--                    <br>-->
-<!--                </form>-->
             </div>
             <table>
                 <thead>
@@ -272,8 +269,11 @@ try {
                         $autorizado = $row['autorizado'];
                         echo "<td>".$autorizado."</td>";
                         echo '<input type="hidden" name="autorizado" value="'.$autorizado.'">';
-                        echo '<td><button type="submit" formaction="php/closeControl.php" name="closeControl">Cerrar control</button></td>';
-                        //TODO el control selecciona siempre el ultimo registro
+                        if ($fecha_fin_actividad==null) {
+                            echo '<td><button type="submit" formaction="php/closeAct.php" name="closeAct">Validar control</button></td>';
+                        } else {
+                            echo '<td><button type="submit" formaction="php/closeControl.php" name="closeControl">Cerrar control</button></td>';
+                        }
                         echo "</tr>";
                         echo "</form>";
                     }
@@ -282,17 +282,6 @@ try {
                 </tbody>
             </table>
             </form>
-            <?php
-            // Paginador
-            if (isset($_POST["primera"]) && $pagina>1)
-                $pagina = 1;
-            if (isset($_POST["anterior"]) && $pagina>1)
-                $pagina--;
-            if (isset($_POST["siguiente"]) && $pagina<=$total_paginas)
-                $pagina++;
-            if (isset($_POST["ultima"]) && $pagina<=$total_paginas)
-                $pagina = $total_paginas;
-            ?>
         </div>
     </main>
 
@@ -308,5 +297,5 @@ catch(PDOException $e) {
     echo $e->getMessage();
 
     $stmt = null;
-    $pdo = null;
+    $conexion = null;
 }

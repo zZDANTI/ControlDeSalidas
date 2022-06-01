@@ -1,19 +1,20 @@
 <?php
-include('php/bloqueo.php');
-include('php/conexion.php');
+include('bloqueo.php');
+include('conexion.php');
 
 // Recogida de parámetros
 $nia = isset($_POST['nia'])? $_POST['nia']:null;
-$nombre = isset($_POST['nombre'])? $_POST['nombre']:null;
+$nombre = isset($_POST['nombre'])? $_POST['nombre']:null; //TODO recogerlos con una consulta no por POST
 $apellido_1 = isset($_POST['apellido_1'])? $_POST['apellido_1']:null;
 $motivo_control = isset($_POST['motivo'])? $_POST['motivo']:null;
-$pers_autorizacion_registrar = "victor@elcampico.org";
+$pers_auth = $_SESSION['usuario'];
 $observaciones = isset($_POST['observaciones'])? $_POST['observaciones']:null;
 $submit = isset($_POST['makeControl']);
 
 echo "<pre>";
 print_r($_POST);
 echo "</pre>";
+echo $pers_auth;
 
 // Operación de inserción
 if ($submit) {
@@ -51,14 +52,14 @@ if ($submit) {
         if ($motivo_control == "no tiene autorizacion") {
             $values = [
                 ":nia" => $nia,
-                ":pers_autorizacion_registrar" => $pers_autorizacion_registrar,
+                ":pers_autorizacion_registrar" => $pers_auth,
                 ":motivo_control" => $motivo_control,
                 ":autorizado" => 0
             ];
         } else {
             $values = [
                 ":nia" => $nia,
-                ":pers_autorizacion_registrar" => $pers_autorizacion_registrar,
+                ":pers_autorizacion_registrar" => $pers_auth,
                 ":motivo_control" => $motivo_control,
                 ":autorizado" => 1
             ];
