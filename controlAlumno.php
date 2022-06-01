@@ -3,28 +3,28 @@ include('php/bloqueo.php');
 include('php/conexion.php');
 $idUsuario = $_SESSION['usuario'];
 
-$sql_personal = "SELECT * FROM personal WHERE email='$idUsuario'";
-
-$stmt = $conexion->prepare($sql_personal);
-$stmt->execute();
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
+//$sql_personal = "SELECT * FROM personal WHERE email='$idUsuario'";
+//
+//$stmt = $conexion->prepare($sql_personal);
+//$stmt->execute();
+//$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // Recogida de filtros
 // $ID_CURSO = isset($_POST["ID_CURSO"])? $_POST["ID_CURSO"]:null;
-$nombre = isset($_POST["nombre"])? $_POST["nombre"]:null;
+$nombre = isset($_POST["nombre"])? $_POST["nombre"]:null; //TODO arreglar esto
 $pagina = isset($_POST["pagina"])? $_POST["pagina"]:1;
 $num_registros=13;
 
 try {
 
-    // Motivos
+// Motivos
     $motivos = 'SELECT nombre FROM motivo';
 
     $stmtMotivos = $conexion->prepare($motivos);
     $stmtMotivos->execute();
 //    $arrMotivos = $stmtMotivos->fetch(PDO::FETCH_ASSOC);
 
-    // Total registros
+// Total registros
     $sql_count = 'SELECT count(*) as total from alumno where true';
     $sql_where  = "";
 
@@ -37,11 +37,11 @@ try {
 
     $stmt = $conexion->prepare($sql_count.$sql_where);
     $stmt->execute($filters);
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    $total_registros = $row["total"];
+    $arrAlumnos = $stmt->fetch(PDO::FETCH_ASSOC);
+    $total_registros = $arrAlumnos["total"];
     $total_paginas = ceil($total_registros/$num_registros);
 
-    // Paginador
+// Paginador
     if (isset($_POST["primera"]) && $pagina>1)
         $pagina = 1;
     if (isset($_POST["anterior"]) && $pagina>1)
@@ -51,9 +51,7 @@ try {
     if (isset($_POST["ultima"]) && $pagina<$total_paginas)
         $pagina = $total_paginas;
 
-    $sql = 'SELECT * from alumno where true';
-    $sql .= $sql_where;
-    $sql .= " limit ".($pagina-1)*$num_registros.", $num_registros";
+    $sql = 'SELECT * FROM alumno WHERE true ORDER BY nia ASC LIMIT '.($pagina-1)*$num_registros.", $num_registros";
 
     $stmt = $conexion->prepare($sql);
     $stmt->execute($filters);
@@ -69,6 +67,10 @@ try {
         <script src="https://kit.fontawesome.com/7e5b2d153f.js" crossorigin="anonymous"></script>
         <script defer src="js/header.js"></script>
         <link rel="stylesheet" href="css/stylesheet.css" type="text/css">
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
     </head>
     <body>
     <header class="header">
@@ -107,53 +109,54 @@ try {
                     <br>
                 </form>
             </div>
-            <table>
-                <thead>
-                <tr>
-                    <th>
-                        <p>NIA | </p>
-                    </th>
-                    <th>
-                        <p>NOMBRE | </p>
-                    </th>
-                    <th>
-                        <p>APELLIDO 1 | </p>
-                    </th>
-                    <th>
-                        <p>ID_CURSO</p>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
+            <div class="alumnos-body">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>
+                            <p>NIA | </p>
+                        </th>
+                        <th>
+                            <p>NOMBRE | </p>
+                        </th>
+                        <th>
+                            <p>APELLIDO 1 | </p>
+                        </th>
+                        <th>
+                            <p>ID_CURSO</p>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-                <div class="alumnos-body">
+
                     <?php
 
-                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    while ($arrAlumnos = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
                         echo '<form method="post" action="php/makeControl.php">';
                         echo "<tr>";
-                        $nia = $row['nia'];
+                        $nia = $arrAlumnos['nia'];
                         echo "<td>".$nia."</td>";
                         echo '<input type="hidden" name="nia" value="'.$nia.'">';
-                        $nombre = $row['nombre'];
+                        $nombre = $arrAlumnos['nombre'];
                         echo "<td>".$nombre."</td>";
                         echo '<input type="hidden" name="nombre" value="'.$nombre.'">';
-                        $apellido_1 = $row['apellido_1'];
+                        $apellido_1 = $arrAlumnos['apellido_1'];
                         echo "<td>".$apellido_1."</td>";
                         echo '<input type="hidden" name="apellido_1" value="'.$apellido_1.'">';
-                        $id_curso = $row['id_curso'];
+                        $id_curso = $arrAlumnos['id_curso'];
                         echo "<td>".$id_curso."</td>";
                         echo '<input type="hidden" name="id_curso" value="'.$id_curso.'">';
                         echo '<td><button type="submit" formaction="php/seeMore.php" name="seeMore">Mas Info</button></td>';
                         echo '<td><label for="motivo">Motivo del control:</label>';
                         echo  '<select name="motivo">';
                         echo '<option value="Ir a secretaria">ir a secretaria</option>
-                                    <option value="Ir al baño">ir al bano</option>
-                                    <option value="Se va de excursion">se va de excursion</option>
-                                    <option value="Sus padres se lo llevan">sus padres se lo llevan</option>
-                                    <option value="No tiene autorizacion" selected>no tiene autorizacion</option>
-                                    <option value="Otro">otro</option>';
+                                <option value="Ir al baño">ir al bano</option>
+                                <option value="Se va de excursión">se va de excursion</option>
+                                <option value="Sus padres se lo llevan">sus padres se lo llevan</option>
+                                <option value="No tiene autorizacion" selected>no tiene autorizacion</option>
+                                <option value="Otro">otro</option>';
 //                        foreach ($stmtMotivos->fetch(PDO::FETCH_ASSOC) as $motivo) {
 //                            echo $motivo;
 //                            echo '<option value="'.$motivo.'">'.$motivo.'</option>';
@@ -167,8 +170,8 @@ try {
                     }
 
                     ?>
-                </div>
-                </tbody>
+            </div>
+            </tbody>
             </table>
         </div>
         <form action="controlAlumno.php" class="paginador" method="post">
@@ -182,9 +185,7 @@ try {
         <div class="div-control-abierto">
 
             <?php
-            $sql = 'SELECT * from alumno a, control c where a.nia=c.id_alumno and c.fecha_llegada is null order by fecha_registrar desc';
-            $sql .= $sql_where;
-            $sql .= " limit ".($pagina-1)*$num_registros.", $num_registros";
+            $sql = 'SELECT * from alumno a, control c where a.nia=c.id_alumno and c.fecha_llegada is null order by fecha_registrar desc limit '.($pagina-1)*$num_registros.", $num_registros";
 
             $stmt = $conexion->prepare($sql);
             $stmt->execute($filters);
@@ -235,38 +236,38 @@ try {
 
                     <?php
 
-                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    while ($arrAlumnos = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
                         echo '<form method="post" action="php/closeControl.php">';
                         echo "<tr>";
-                        $nia = $row['nia'];
+                        $nia = $arrAlumnos['nia'];
                         echo "<td>".$nia."</td>";
                         echo '<input type="hidden" name="nia" value="'.$nia.'">';
-                        $nombre = $row['nombre'];
+                        $nombre = $arrAlumnos['nombre'];
                         echo "<td>".$nombre."</td>";
                         echo '<input type="hidden" name="nombre" value="'.$nombre.'">';
-                        $apellido_1 = $row['apellido_1'];
+                        $apellido_1 = $arrAlumnos['apellido_1'];
                         echo "<td>".$apellido_1."</td>";
                         echo '<input type="hidden" name="apellido_1" value="'.$apellido_1.'">';
-                        $id_curso = $row['id_curso'];
+                        $id_curso = $arrAlumnos['id_curso'];
                         echo "<td>".$id_curso."</td>";
                         echo '<input type="hidden" name="id_curso" value="'.$id_curso.'">';
-                        $fecha_registrar = $row['fecha_registrar'];
+                        $fecha_registrar = $arrAlumnos['fecha_registrar'];
                         echo "<td>".$fecha_registrar."</td>";
                         echo '<input type="hidden" name="fecha_registrar" value="'.$fecha_registrar.'">';
-                        $fecha_fin_actividad = $row['fecha_fin_actividad'];
+                        $fecha_fin_actividad = $arrAlumnos['fecha_fin_actividad'];
                         echo "<td>".$fecha_fin_actividad."</td>";
                         echo '<input type="hidden" name="fecha_fin_actividad" value="'.$fecha_fin_actividad.'">';
-                        $id_personal_registrar = $row['id_personal_registrar'];
+                        $id_personal_registrar = $arrAlumnos['id_personal_registrar'];
                         echo "<td>".$id_personal_registrar."</td>";
                         echo '<input type="hidden" name="id_personal_registrar" value="'.$id_personal_registrar.'">';
-                        $id_personal_fin_actividad = $row['id_personal_fin_actividad'];
+                        $id_personal_fin_actividad = $arrAlumnos['id_personal_fin_actividad'];
                         echo "<td>".$id_personal_fin_actividad."</td>";
                         echo '<input type="hidden" name="id_personal_fin_actividad" value="'.$id_personal_fin_actividad.'">';
-                        $id_motivo = $row['id_motivo'];
+                        $id_motivo = $arrAlumnos['id_motivo'];
                         echo "<td>".$id_motivo."</td>";
                         echo '<input type="hidden" name="id_motivo" value="'.$id_motivo.'">';
-                        $autorizado = $row['autorizado'];
+                        $autorizado = $arrAlumnos['autorizado'];
                         echo "<td>".$autorizado."</td>";
                         echo '<input type="hidden" name="autorizado" value="'.$autorizado.'">';
                         if ($fecha_fin_actividad==null) {
@@ -289,7 +290,7 @@ try {
     </html>
     <?php
 
-    # Para liberar los recursos utilizados en la consulta SELECT
+# Para liberar los recursos utilizados en la consulta SELECT
     $stmt = null;
     $conexion = null;
 }

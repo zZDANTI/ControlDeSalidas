@@ -18,9 +18,6 @@ if (isset($_POST['seeMore'])) {
     $submit_type="updateAlumno";
 }
 
-echo "type".$submit_type;
-echo "sub".$submit;
-
 echo "<pre>";
 print_r($_POST);
 echo "</pre>";
@@ -35,12 +32,11 @@ if ($submit) {
         $is_control_array = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($is_control_array['nia']==null) {
-            echo "asdasdasd";
-//            echo '<script>
-//                    alert("El alumno no existe.")
-//                    window.location = "../controlAlumno.php";
-//                  </script>';
-//            exit();
+            echo '<script>
+                    alert("El alumno no existe.")
+                    window.location = "../controlAlumno.php";
+                  </script>';
+            exit();
         }
 
         if ($submit_type=='seeMore') {
@@ -77,7 +73,6 @@ if ($submit) {
                     <option value="2º ESO">2º</option>
                     <option value="3º ESO">3º</option>
                     <option value="4º ESO">4º</option>
-                    <option value="otro">otro</option>
                 </select>
                 <input type="submit" name="updateAlumno">
             </form>
@@ -103,19 +98,17 @@ if ($submit) {
             $conexion = null;
 
             if ($is_insert) {
-                echo "bien";
-//                echo '<script>
-//                    alert("Alumno editado correctamente.")
-//                    window.location = "../controlAlumno.php";
-//                  </script>';
-//                exit();
+                echo '<script>
+                    alert("Alumno editado correctamente.")
+                    window.location = "../controlAlumno.php";
+                  </script>';
+                exit();
             } else {
-                echo "Mal";
-//                echo '<script>
-//                    alert("Ha habido un problema, operacion cancelada.")
-//                    window.location = "../controlAlumno.php";
-//                  </script>';
-//                exit();
+                echo '<script>
+                    alert("Ha habido un problema, operacion cancelada.")
+                    window.location = "../controlAlumno.php";
+                  </script>';
+                exit();
             }
         }
 

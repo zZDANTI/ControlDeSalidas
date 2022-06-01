@@ -18,22 +18,10 @@ echo $pers_auth;
 
 // Operación de inserción
 if ($submit) {
-    $host='localhost';
-    $dbname='control_de_salidas';
-    $user='root';
-    $pass='';
-
     try {
-        # MySQL con PDO_MYSQL
-        # Para que la conexion al mysql utilice las collation UTF-8 añadir charset=utf8 al string de la conexion.
-        $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
-
-        # Para que genere excepciones a la hora de reportar errores.
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
         # Revisar si el alumno tiene controles abiertos
         $is_control = 'SELECT id_alumno FROM control WHERE fecha_llegada IS NULL AND id_alumno="'.$nia.'"';
-        $stmt = $pdo->prepare($is_control);
+        $stmt = $conexion->prepare($is_control);
         $is_insert = $stmt->execute();
         $is_control_array = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -49,7 +37,7 @@ if ($submit) {
         $sql = 'INSERT INTO control (fecha_registrar, autorizado, id_alumno, id_personal_registrar, id_motivo)
 	        VALUES (NOW(), :autorizado, :nia, :pers_autorizacion_registrar, :motivo_control);';
         echo $sql;
-        if ($motivo_control == "no tiene autorizacion") {
+        if ($motivo_control == "No tiene autorizacion") {
             $values = [
                 ":nia" => $nia,
                 ":pers_autorizacion_registrar" => $pers_auth,
@@ -64,12 +52,12 @@ if ($submit) {
                 ":autorizado" => 1
             ];
         }
-        $stmt = $pdo->prepare($sql);
+        $stmt = $conexion->prepare($sql);
         $is_insert = $stmt->execute($values);
 
         # Para liberar los recursos utilizados en la consulta SELECT
         $stmt = null;
-        $pdo = null;
+        $conexion = null;
 
         if ($is_insert) {
             echo '<script>
@@ -89,6 +77,6 @@ if ($submit) {
         echo $e->getMessage();
 
         $stmt = null;
-        $pdo = null;
+        $conexion = null;
     }
 }

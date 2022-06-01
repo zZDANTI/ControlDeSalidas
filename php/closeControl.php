@@ -17,12 +17,12 @@ if ($submit) {
     try {
 
         # Revisar si el alumno tiene controles abiertos
-        $is_control = 'SELECT id_alumno FROM control WHERE fecha_registrar IS NULL AND fecha_llegada IS NOT NULL AND id_alumno="'.$nia.'"';
+        $is_control = 'SELECT id_alumno FROM control WHERE fecha_registrar IS NOT NULL AND fecha_llegada IS NULL AND id_alumno="'.$nia.'"';
         $stmt = $conexion->prepare($is_control);
         $is_insert = $stmt->execute();
         $is_control_array = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (!($is_control_array['id_alumno'])==null) {
+        if (($is_control_array['id_alumno'])==null) {
             echo '<script>
                     alert("El alumno no tiene ningun control abierto.")
                     window.location = "../controlAlumno.php";
