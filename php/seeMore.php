@@ -9,6 +9,14 @@ $ape_1 = isset($_POST['ape_1'])? $_POST['ape_1']:null;
 $ape_2 = isset($_POST['ape_2'])? $_POST['ape_2']:null;
 $id_curso = isset($_POST['id_curso'])? $_POST['id_curso']:null;
 
+//Cursos
+$curso = 'SELECT nombre FROM curso';
+$stmtCurso = $conexion->prepare($curso);
+$stmtCurso->execute();
+$arrCurso=null;
+$arrCurso = $stmtCurso->fetchAll(PDO::FETCH_ASSOC);
+
+
 // Combrueba desde donde se envia el POST
 if (isset($_POST['seeMore'])) {
     $submit=true;
@@ -68,11 +76,16 @@ if ($submit) {
                 <label for="ape_2">Apellido 2</label><br>
                 <input type="text" name="ape_2" value="<?php echo $ape_2?>"><br>
                 <label for="id_curso">Curso</label><br>
-                <select name="id_curso">
-                    <option value="1º ESO">1º</option>
-                    <option value="2º ESO">2º</option>
-                    <option value="3º ESO">3º</option>
-                    <option value="4º ESO">4º</option>
+                <select name="id_curso" selected="<?php echo $id_curso ?>">
+                    <?php
+                        foreach ($arrCurso as $curso) {
+                            if ($id_curso == $curso['nombre']){
+                                echo '<option selected value="'.$curso['nombre'].'">'.$curso['nombre'].'</option>';
+                            }else{
+                                echo '<option value="'.$curso['nombre'].'">'.$curso['nombre'].'</option>';
+                            }
+                        };   
+                    ?> 
                 </select>
                 <input type="submit" name="updateAlumno">
             </form>

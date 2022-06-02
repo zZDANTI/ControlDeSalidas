@@ -24,10 +24,7 @@ try {
     $stmtMotivos->execute();
     $arrMotivos=null;
     $arrMotivos = $stmtMotivos->fetchAll(PDO::FETCH_ASSOC);
-//    $arrMotivos = $stmtMotivos->fetch(PDO::FETCH_ASSOC);
-
-
-
+    
 // Total registros
     $sql_count = 'SELECT count(*) as total from alumno where true';
     $sql_where  = "";
@@ -156,12 +153,6 @@ try {
                         echo '<td><button type="submit" formaction="php/seeMore.php" name="seeMore"> Más Info</button></td>';
                         echo '<td><label for="motivo">Motivo del control:</label>';
                         echo  '<select name="motivo">';
-//                        echo '<option value="Ir a secretaria">ir a secretaria</option>
-//                                <option value="Ir al baño">ir al bano</option>
-//                                <option value="Se va de excursión">se va de excursion</option>
-//                                <option value="Sus padres se lo llevan">sus padres se lo llevan</option>
-//                                <option value="No tiene autorizacion" selected>no tiene autorizacion</option>
-//                                <option value="Otro">otro</option>';
                         foreach ($arrMotivos as $motivo) {
                             echo $motivo;
                             echo '<option value="'.$motivo['nombre'].'">'.$motivo['nombre'].'</option>';
@@ -185,6 +176,7 @@ try {
                 <input type="submit" name="siguiente" value=">">
                 <input type="submit" name="ultima" value=">>">
             </form>
+            <p>Número total de alumnos <?php echo $total_registros ?> | Número total de páginas <?php echo $total_paginas ?></p>
         </div>
 
 
