@@ -6,6 +6,7 @@ try {
     # Recoger los controles
     $sql = 'SELECT * FROM control WHERE fecha_llegada IS NOT NULL';
     $stmt = $conexion->prepare($sql);
+    $stmt->execute();
     echo $sql;
 
     ?>

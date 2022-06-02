@@ -22,7 +22,7 @@ if ($submit) {
         $is_insert = $stmt->execute();
         $is_control_array = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (($is_control_array['id_alumno'])==null) {
+        if ((!$is_control_array['id_alumno'])) {
             echo '<script>
                     alert("El alumno no tiene ningun control abierto.")
                     window.location = "../controlAlumno.php";
