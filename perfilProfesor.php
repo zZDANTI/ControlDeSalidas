@@ -17,6 +17,7 @@
 	<link rel="stylesheet" type="text/css" href="css/controlSalidas.css">
 	<script src="https://kit.fontawesome.com/7e5b2d153f.js" crossorigin="anonymous"></script>
 	<script defer src="js/header.js"></script>
+	<link rel="icon" type="image/png" href="Imgs/favicon/favicon_campico.ico"/>
 </head>
 
 
@@ -32,7 +33,7 @@
                     <a href="controlAlumno.php" class="nav-menu-link nav_link"><img src="Imgs/control_home.png" alt="" width="40px"></a>
                 </li>
                 <li class="nav-menu-item">
-                    <a href="#" class="nav-menu-link nav_link"><img src="Imgs/icono_control.png" alt="" width="40px"></a>
+                    <a href="controlesCerrados.php" class="nav-menu-link nav_link"><img src="Imgs/icono_control.png" alt="" width="40px"></a>
                 </li>
                 <li class="nav-menu-item">
                     <a href="#" class="nav-menu-link nav_link"><img src="Imgs/logo_usuario.png" alt="" width="40px"></a>

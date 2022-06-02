@@ -1,6 +1,6 @@
 /*
-SQLyog Community v13.1.7 (64 bit)
-MySQL - 10.4.21-MariaDB : Database - control_de_salidas
+SQLyog Community v13.1.9 (64 bit)
+MySQL - 10.4.22-MariaDB : Database - control_de_salidas
 *********************************************************************
 */
 
@@ -12,7 +12,7 @@ MySQL - 10.4.21-MariaDB : Database - control_de_salidas
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*`control`/`control_de_salidas` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`control_de_salidas` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 
 USE `control_de_salidas`;
 
@@ -21,19 +21,19 @@ USE `control_de_salidas`;
 DROP TABLE IF EXISTS `alumno`;
 
 CREATE TABLE `alumno` (
-  `nia` CHAR(8) NOT NULL,
-  `nombre` CHAR(20) NOT NULL,
-  `apellido_1` CHAR(20) NOT NULL,
-  `apellido_2` CHAR(20) DEFAULT NULL,
-  `id_curso` CHAR(30) NOT NULL,
+  `nia` char(8) NOT NULL,
+  `nombre` char(20) NOT NULL,
+  `apellido_1` char(20) NOT NULL,
+  `apellido_2` char(20) DEFAULT NULL,
+  `id_curso` char(30) NOT NULL,
   PRIMARY KEY (`nia`),
   KEY `FK_alumno_curso` (`id_curso`),
   CONSTRAINT `FK_alumno_curso` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`nombre`) ON UPDATE CASCADE
-) ENGINE=INNODB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `alumno` */
 
-INSERT  INTO `alumno`(`nia`,`nombre`,`apellido_1`,`apellido_2`,`id_curso`) VALUES 
+insert  into `alumno`(`nia`,`nombre`,`apellido_1`,`apellido_2`,`id_curso`) values 
 ('10','Raul','Mora','Gomez','2º ESO'),
 ('11','Jesús','Ruiz','Santos','3º ESO'),
 ('12','Fabián','Gil','Martinez','2º ESO'),
