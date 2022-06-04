@@ -3,15 +3,9 @@ include('php/bloqueo.php');
 include('php/conexion.php');
 $idUsuario = $_SESSION['usuario'];
 
-//$sql_personal = "SELECT * FROM personal WHERE email='$idUsuario'";
-//
-//$stmt = $conexion->prepare($sql_personal);
-//$stmt->execute();
-//$row = $stmt->fetch(PDO::FETCH_ASSOC);
-
 // Recogida de filtros
 // $ID_CURSO = isset($_POST["ID_CURSO"])? $_POST["ID_CURSO"]:null;
-$nombre = isset($_POST["nombre"])? $_POST["nombre"]:null; //TODO arreglar esto
+$nombre = isset($_POST["nombre"])? $_POST["nombre"]:null;
 $pagina = isset($_POST["pagina"])? $_POST["pagina"]:1;
 $num_registros=10;
 
@@ -26,13 +20,13 @@ try {
     $arrMotivos = $stmtMotivos->fetchAll(PDO::FETCH_ASSOC);
     
 // Total registros
-    $sql_count = 'SELECT count(*) as total from alumno where true';
+    $sql_count = 'SELECT count(*) AS total FROM alumno WHERE true';
     $sql_where  = "";
 
     $filters = [];
 
     if (!empty($nombre)) {
-        $sql_where .= " and nombre like :nombre";
+        $sql_where .= " AND nombre LIKE :nombre";
         $filters[":nombre"] = "%".$nombre."%";
     }
 
@@ -52,9 +46,18 @@ try {
     if (isset($_POST["ultima"]) && $pagina<$total_paginas)
         $pagina = $total_paginas;
 
-    $sql = 'SELECT * FROM alumno WHERE true ORDER BY nia ASC LIMIT '.($pagina-1)*$num_registros.", $num_registros";
+    $sql_where  = "";
+    $filters = [];
 
-    $stmt = $conexion->prepare($sql);
+    if (!empty($nombre)) {
+        $sql_where .= " AND nombre LIKE :nombre";
+        $filters[":nombre"] = "%".$nombre."%";
+    }
+
+    $sql = 'SELECT * FROM alumno WHERE true';
+    $sql_order = ' ORDER BY nia ASC LIMIT '.($pagina-1)*$num_registros.', '.$num_registros;
+
+    $stmt = $conexion->prepare($sql.$sql_where.$sql_order);
     $stmt->execute($filters);
 
     ?>
@@ -190,7 +193,7 @@ try {
             $sql = 'SELECT * from alumno a, control c where a.nia=c.id_alumno and c.fecha_llegada is null order by fecha_registrar desc limit '.($pagina-1)*$num_registros.", $num_registros";
 
             $stmt = $conexion->prepare($sql);
-            $stmt->execute($filters);
+            $stmt->execute();
 
             ?>
 
