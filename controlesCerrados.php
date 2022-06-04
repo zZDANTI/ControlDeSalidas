@@ -7,7 +7,6 @@ try {
     $sql = 'SELECT * FROM control WHERE fecha_llegada IS NOT NULL';
     $stmt = $conexion->prepare($sql);
     $stmt->execute();
-    echo $sql;
 
     ?>
     <!doctype html>
@@ -56,15 +55,15 @@ try {
             <table>
                 <thead>
                 <tr>
-                    <th>NIA | </th>
-                    <th>FECHA INICIO REGISTRO | </th>
-                    <th>FECHA FIN ACTIVIDAD | </th>
-                    <th>FECHA FIN REGISTRO | </th>
-                    <th>AUTORIZADOR SALIDA | </th>
-                    <th>AUTORIZADOR FIN ACTIVIDAD | </th>
-                    <th>AUTORIZADOR LLEGADA | </th>
-                    <th>MOTIVO | </th>
-                    <th>OBSERVACIONES | </th>
+                    <th>NIA</th>
+                    <th>FECHA INICIO REGISTRO</th>
+                    <th>FECHA FIN ACTIVIDAD</th>
+                    <th>FECHA FIN REGISTRO</th>
+                    <th>AUTORIZADOR SALIDA</th>
+                    <th>AUTORIZADOR FIN ACTIVIDAD</th>
+                    <th>AUTORIZADOR LLEGADA</th>
+                    <th>MOTIVO</th>
+                    <th>OBSERVACIONES</th>
                     <th>AUTORIZADO</th>
                 </tr>
                 </thead>
