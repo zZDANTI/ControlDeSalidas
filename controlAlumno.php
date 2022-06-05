@@ -4,7 +4,7 @@ include('php/conexion.php');
 $idUsuario = $_SESSION['usuario'];
 
 // Recogida de filtros
-// $ID_CURSO = isset($_POST["ID_CURSO"])? $_POST["ID_CURSO"]:null;
+$curso = isset($_POST["curso"])? $_POST["curso"]:null;
 $nombre = isset($_POST["nombre"])? $_POST["nombre"]:null;
 $pagina = isset($_POST["pagina"])? $_POST["pagina"]:1;
 $num_registros=10;
@@ -18,6 +18,12 @@ try {
     $stmtMotivos->execute();
     $arrMotivos = $stmtMotivos->fetchAll(PDO::FETCH_ASSOC);
     
+// Cursos
+    $curso = 'SELECT nombre FROM curso';
+    $stmtCurso = $conexion->prepare($curso);
+    $stmtCurso->execute();
+    $arrCurso = $stmtCurso->fetchAll(PDO::FETCH_ASSOC);
+
 // Total registros
     $sql_count = 'SELECT count(*) AS total FROM alumno WHERE true';
     $sql_where  = "";
@@ -28,6 +34,11 @@ try {
         $sql_where .= " AND nombre LIKE :nombre";
         $filters[":nombre"] = "%".$nombre."%";
     }
+    /*
+    if (!empty($curso)) {
+        $sql_where .= " AND id_curso LIKE :curso";
+        $filters[":curso"] = "%".$curso."%";
+    }*/
 
     $stmt = $conexion->prepare($sql_count.$sql_where);
     $stmt->execute($filters);
@@ -54,6 +65,11 @@ try {
         $sql_where .= " AND nombre LIKE :nombre";
         $filters[":nombre"] = "%".$nombre."%";
     }
+    /*
+    if (!empty($curso)) {
+        $sql_where .= " AND id_curso LIKE :curso";
+        $filters[":curso"] = $curso;
+    }*/
 
     $sql = 'SELECT * FROM alumno WHERE true';
     $sql_order = ' ORDER BY nia ASC LIMIT '.($pagina-1)*$num_registros.', '.$num_registros;
@@ -108,8 +124,16 @@ try {
 
                     <h1>ALUMNOS</h1>
                     <form method="post" action="controlAlumno.php" class="main-form" margin-top="140px">
-                        <label for=" nombre">Nombre:</label>
-                        <input type="text" name="nombre" value="<?php echo $nombre?>">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" name="nombre">
+                        <label for="curso">Curso:</label>
+                        <select name="curso">
+                        <?php
+                        foreach ($arrCurso as $curso) {
+                            echo '<option value="'.$curso['nombre'].'">'.$curso['nombre'].'</option>';
+                        }
+                        ?> 
+                        </select>
 
                         <input type="submit" value="Buscar" name="buscar">
 
@@ -159,151 +183,151 @@ try {
                                 echo  '<select name="motivo">';
                                 foreach ($arrMotivos as $motivo) { //TODO no funciona
                                     if ($motivo['nombre'] == "No tiene autorizacion") {
-                                         echo '<option selected value="'.$motivo['nombre'].'">'.$motivo['nombre'].'</option>';
-                                    } else {
-                                         echo '<option value="'.$motivo['nombre'].'">'.$motivo['nombre'].'</option>';
-                                    }
-                                };
-                                echo '</select></td>';
-                                echo '<td><label for="observaciones"> Observaciones: </label></td>';
-                                echo '<td><textarea name="observaciones" maxlength="500"></textarea></td>';
-                                echo '<td><button type="submit" formaction="php/makeControl.php" name="makeControl">Realizar control</button></td>';
-                                echo "</tr>";
-                                echo "</form>";
-                            }
+                                       echo '<option selected value="'.$motivo['nombre'].'">'.$motivo['nombre'].'</option>';
+                                   } else {
+                                       echo '<option value="'.$motivo['nombre'].'">'.$motivo['nombre'].'</option>';
+                                   }
+                               }
+                               echo '</select></td>';
+                               echo '<td><label for="observaciones"> Observaciones: </label></td>';
+                               echo '<td><textarea name="observaciones" maxlength="500"></textarea></td>';
+                               echo '<td><button type="submit" formaction="php/makeControl.php" name="makeControl">Realizar control</button></td>';
+                               echo "</tr>";
+                               echo "</form>";
+                           }
 
-                            ?>
-                        </div>
-                    </tbody>
-                </table>
-                <form action="controlAlumno.php" class="paginador" method="post">
-                    <input type="submit" name="primera" value="<<">
-                        <input type="submit" name="anterior" value="<">
-                            <input type="text" name="pagina" value="<?php echo $pagina ?>">
-                            <input type="submit" name="siguiente" value=">">
-                            <input type="submit" name="ultima" value=">>">
-                        </form>
-                        <p>Número total de alumnos <?php echo $total_registros ?> | Número total de páginas <?php echo $total_paginas ?></p>
-                    </div>
-
-
-                    <div class="alumnos-header">
-                        <h1>CONTROLES ABIERTOS</h1>
-                    </div>
-
-                    <div class="div-control-abierto">
-
-                        <?php
-                        $sql = 'SELECT * FROM alumno a, control c WHERE a.nia=c.id_alumno AND c.fecha_llegada IS NULL ORDER BY fecha_registrar DESC';
-
-                        $stmt = $conexion->prepare($sql);
-                        $stmt->execute();
-
-                        ?>
-
-
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>
-                                        <p> NIA  </p>
-                                    </th>
-                                    <th>
-                                        <p> NOMBRE  </p>
-                                    </th>
-                                    <th>
-                                        <p> 1&#176;APELLIDO  </p>
-                                    </th>
-                                    <th>
-                                        <p> CURSO  </p>
-                                    </th>
-                                    <th>
-                                        <p> INICIO REGISTRO  </p>
-                                    </th>
-                                    <th>
-                                        <p> FIN ACTIVIDAD  </p>
-                                    </th>
-                                    <th>
-                                        <p> AUTORIZANTE REGISTRO  </p>
-                                    </th>
-                                    <th>
-                                        <p> AUTORIZANTE FIN ACTIVIDAD  </p>
-                                    </th>
-                                    <th>
-                                        <p> MOTIVO </p>
-                                    </th>
-                                    <th>
-                                        <p></p>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                <div class="alumnos-body2">
-
-                                    <?php
-
-                                    while ($arrAlumnos = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-                                        echo '<form method="post" action="php/closeControl.php">';
-                                        echo "<tr>";
-                                        $nia = $arrAlumnos['nia'];
-                                        echo "<td>".$nia."</td>";
-                                        echo '<input type="hidden" name="nia" value="'.$nia.'">';
-                                        $nombre = $arrAlumnos['nombre'];
-                                        echo "<td>".$nombre."</td>";
-                                        echo '<input type="hidden" name="nombre" value="'.$nombre.'">';
-                                        $apellido_1 = $arrAlumnos['apellido_1'];
-                                        echo "<td>".$apellido_1."</td>";
-                                        echo '<input type="hidden" name="apellido_1" value="'.$apellido_1.'">';
-                                        $id_curso = $arrAlumnos['id_curso'];
-                                        echo "<td>".$id_curso."</td>";
-                                        echo '<input type="hidden" name="id_curso" value="'.$id_curso.'">';
-                                        $fecha_registrar = $arrAlumnos['fecha_registrar'];
-                                        echo "<td>".$fecha_registrar."</td>";
-                                        echo '<input type="hidden" name="fecha_registrar" value="'.$fecha_registrar.'">';
-                                        $fecha_fin_actividad = $arrAlumnos['fecha_fin_actividad'];
-                                        echo "<td>".$fecha_fin_actividad."</td>";
-                                        echo '<input type="hidden" name="fecha_fin_actividad" value="'.$fecha_fin_actividad.'">';
-                                        $id_personal_registrar = $arrAlumnos['id_personal_registrar'];
-                                        echo "<td>".$id_personal_registrar."</td>";
-                                        echo '<input type="hidden" name="id_personal_registrar" value="'.$id_personal_registrar.'">';
-                                        $id_personal_fin_actividad = $arrAlumnos['id_personal_fin_actividad'];
-                                        echo "<td>".$id_personal_fin_actividad."</td>";
-                                        echo '<input type="hidden" name="id_personal_fin_actividad" value="'.$id_personal_fin_actividad.'">';
-                                        $id_motivo = $arrAlumnos['id_motivo'];
-                                        echo "<td>".$id_motivo."</td>";
-                                        echo '<input type="hidden" name="id_motivo" value="'.$id_motivo.'">';
-                                        $autorizado = $arrAlumnos['autorizado'];
-                                        echo "<td>".$autorizado."</td>";
-                                        echo '<input type="hidden" name="autorizado" value="'.$autorizado.'">';
-                                        if ($fecha_fin_actividad==null) {
-                                            echo '<td><button type="submit" formaction="php/closeAct.php" name="closeAct">Validar control</button></td>';
-                                        } else {
-                                            echo '<td><button type="submit" formaction="php/closeControl.php" name="closeControl">Cerrar control</button></td>';
-                                        }
-                                        echo "</tr>";
-                                        echo "</form>";
-                                    }
-                                    ?>
-                                </div>
-                            </tbody>
-                        </table>
+                           ?>
+                       </div>
+                   </tbody>
+               </table>
+               <form action="controlAlumno.php" class="paginador" method="post">
+                <input type="submit" name="primera" value="<<">
+                    <input type="submit" name="anterior" value="<">
+                        <input type="text" name="pagina" value="<?php echo $pagina ?>">
+                        <input type="submit" name="siguiente" value=">">
+                        <input type="submit" name="ultima" value=">>">
                     </form>
+                    <p>Número total de alumnos <?php echo $total_registros ?> | Número total de páginas <?php echo $total_paginas ?></p>
                 </div>
-            </div>
 
-        </body>
-        </html>
-        <?php
+
+                <div class="alumnos-header">
+                    <h1>CONTROLES ABIERTOS</h1>
+                </div>
+
+                <div class="div-control-abierto">
+
+                    <?php
+                    $sql = 'SELECT * FROM alumno a, control c WHERE a.nia=c.id_alumno AND c.fecha_llegada IS NULL ORDER BY fecha_registrar DESC';
+
+                    $stmt = $conexion->prepare($sql);
+                    $stmt->execute();
+
+                    ?>
+
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>
+                                    <p> NIA  </p>
+                                </th>
+                                <th>
+                                    <p> NOMBRE  </p>
+                                </th>
+                                <th>
+                                    <p> 1&#176;APELLIDO  </p>
+                                </th>
+                                <th>
+                                    <p> CURSO  </p>
+                                </th>
+                                <th>
+                                    <p> INICIO REGISTRO  </p>
+                                </th>
+                                <th>
+                                    <p> FIN ACTIVIDAD  </p>
+                                </th>
+                                <th>
+                                    <p> AUTORIZANTE REGISTRO  </p>
+                                </th>
+                                <th>
+                                    <p> AUTORIZANTE FIN ACTIVIDAD  </p>
+                                </th>
+                                <th>
+                                    <p> MOTIVO </p>
+                                </th>
+                                <th>
+                                    <p></p>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <div class="alumnos-body2">
+
+                                <?php
+
+                                while ($arrAlumnos = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+                                    echo '<form method="post" action="php/closeControl.php">';
+                                    echo "<tr>";
+                                    $nia = $arrAlumnos['nia'];
+                                    echo "<td>".$nia."</td>";
+                                    echo '<input type="hidden" name="nia" value="'.$nia.'">';
+                                    $nombre = $arrAlumnos['nombre'];
+                                    echo "<td>".$nombre."</td>";
+                                    echo '<input type="hidden" name="nombre" value="'.$nombre.'">';
+                                    $apellido_1 = $arrAlumnos['apellido_1'];
+                                    echo "<td>".$apellido_1."</td>";
+                                    echo '<input type="hidden" name="apellido_1" value="'.$apellido_1.'">';
+                                    $id_curso = $arrAlumnos['id_curso'];
+                                    echo "<td>".$id_curso."</td>";
+                                    echo '<input type="hidden" name="id_curso" value="'.$id_curso.'">';
+                                    $fecha_registrar = $arrAlumnos['fecha_registrar'];
+                                    echo "<td>".$fecha_registrar."</td>";
+                                    echo '<input type="hidden" name="fecha_registrar" value="'.$fecha_registrar.'">';
+                                    $fecha_fin_actividad = $arrAlumnos['fecha_fin_actividad'];
+                                    echo "<td>".$fecha_fin_actividad."</td>";
+                                    echo '<input type="hidden" name="fecha_fin_actividad" value="'.$fecha_fin_actividad.'">';
+                                    $id_personal_registrar = $arrAlumnos['id_personal_registrar'];
+                                    echo "<td>".$id_personal_registrar."</td>";
+                                    echo '<input type="hidden" name="id_personal_registrar" value="'.$id_personal_registrar.'">';
+                                    $id_personal_fin_actividad = $arrAlumnos['id_personal_fin_actividad'];
+                                    echo "<td>".$id_personal_fin_actividad."</td>";
+                                    echo '<input type="hidden" name="id_personal_fin_actividad" value="'.$id_personal_fin_actividad.'">';
+                                    $id_motivo = $arrAlumnos['id_motivo'];
+                                    echo "<td>".$id_motivo."</td>";
+                                    echo '<input type="hidden" name="id_motivo" value="'.$id_motivo.'">';
+                                    $autorizado = $arrAlumnos['autorizado'];
+                                    echo "<td>".$autorizado."</td>";
+                                    echo '<input type="hidden" name="autorizado" value="'.$autorizado.'">';
+                                    if ($fecha_fin_actividad==null && $autorizado!=0) {
+                                        echo '<td><button type="submit" formaction="php/closeAct.php" name="closeAct">Validar control</button></td>';
+                                    } else {
+                                        echo '<td><button type="submit" formaction="php/closeControl.php" name="closeControl">Cerrar control</button></td>';
+                                    }
+                                    echo "</tr>";
+                                    echo "</form>";
+                                }
+                                ?>
+                            </div>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+
+    </body>
+    </html>
+    <?php
 
 # Para liberar los recursos utilizados en la consulta SELECT
-        $stmt = null;
-        $conexion = null;
-    }
-    catch(PDOException $e) {
-        echo $e->getMessage();
+    $stmt = null;
+    $conexion = null;
+}
+catch(PDOException $e) {
+    echo $e->getMessage();
 
-        $stmt = null;
-        $conexion = null;
-    }
+    $stmt = null;
+    $conexion = null;
+}

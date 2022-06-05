@@ -13,7 +13,6 @@ $id_curso = isset($_POST['id_curso'])? $_POST['id_curso']:null;
 $curso = 'SELECT nombre FROM curso';
 $stmtCurso = $conexion->prepare($curso);
 $stmtCurso->execute();
-$arrCurso=null;
 $arrCurso = $stmtCurso->fetchAll(PDO::FETCH_ASSOC);
 
 
@@ -84,7 +83,7 @@ if ($submit) {
                             }else{
                                 echo '<option value="'.$curso['nombre'].'">'.$curso['nombre'].'</option>';
                             }
-                        };   
+                        }
                     ?> 
                 </select>
                 <input type="submit" name="updateAlumno">

@@ -4,7 +4,8 @@ include ('php/conexion.php');
 
 try {
     # Recoger los controles
-    $sql = 'SELECT * FROM control WHERE fecha_llegada IS NOT NULL';
+    $sql = 'SELECT c.*, a.nombre FROM control c JOIN alumno a ON a.nia=c.id_alumno
+     WHERE fecha_llegada IS NOT NULL ORDER BY fecha_registrar DESC';
     $stmt = $conexion->prepare($sql);
     $stmt->execute();
 
@@ -56,6 +57,7 @@ try {
                 <thead>
                 <tr>
                     <th>NIA</th>
+                    <th>Nombre</th>
                     <th>FECHA INICIO REGISTRO</th>
                     <th>FECHA FIN ACTIVIDAD</th>
                     <th>FECHA FIN REGISTRO</th>
@@ -72,6 +74,7 @@ try {
                 while ($arrControles = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     echo '<tr>';
                     echo '<td>'.$arrControles['id_alumno'].'</td>';
+                    echo '<td>'.$arrControles['nombre'].'</td>';
                     echo '<td>'.$arrControles['fecha_registrar'].'</td>';
                     echo '<td>'.$arrControles['fecha_fin_actividad'].'</td>';
                     echo '<td>'.$arrControles['fecha_llegada'].'</td>';

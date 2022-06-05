@@ -34,11 +34,12 @@ if ($submit) {
         }
 
         # Insertar registros
-        $sql = 'INSERT INTO control (fecha_registrar, autorizado, id_alumno, id_personal_registrar, id_motivo)
-	        VALUES (NOW(), :autorizado, :nia, :pers_autorizacion_registrar, :motivo_control);';
+        $sql = 'INSERT INTO control (observaciones, fecha_registrar, autorizado, id_alumno, id_personal_registrar, id_motivo)
+	        VALUES (:observaciones, NOW(), :autorizado, :nia, :pers_autorizacion_registrar, :motivo_control);';
         echo $sql;
         if ($motivo_control == "No tiene autorizacion") {
             $values = [
+                ":observaciones" => $observaciones,
                 ":nia" => $nia,
                 ":pers_autorizacion_registrar" => $pers_auth,
                 ":motivo_control" => $motivo_control,
@@ -46,6 +47,7 @@ if ($submit) {
             ];
         } else {
             $values = [
+                ":observaciones" => $observaciones,
                 ":nia" => $nia,
                 ":pers_autorizacion_registrar" => $pers_auth,
                 ":motivo_control" => $motivo_control,
