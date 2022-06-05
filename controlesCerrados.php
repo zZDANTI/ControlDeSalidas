@@ -5,7 +5,7 @@ include ('php/conexion.php');
 $pagina = isset($_POST["pagina"])? $_POST["pagina"]:1;
 
 
-$sql_count = 'SELECT count(*) AS total FROM control WHERE true';
+    $sql_count = 'SELECT count(*) AS total FROM control WHERE fecha_llegada IS NOT NULL';
     $num_registros=10;
     $sql_where  = "";
 
