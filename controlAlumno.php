@@ -158,7 +158,7 @@ try {
                                 echo '<td><label for="motivo">Motivo del control:</label>';
                                 echo  '<select name="motivo">';
                                 foreach ($arrMotivos as $motivo) { //TODO no funciona
-                                    if ($motivo == "No tiene autorizacion") {
+                                    if ($motivo['nombre'] == "No tiene autorizacion") {
                                          echo '<option selected value="'.$motivo['nombre'].'">'.$motivo['nombre'].'</option>';
                                     } else {
                                          echo '<option value="'.$motivo['nombre'].'">'.$motivo['nombre'].'</option>';
