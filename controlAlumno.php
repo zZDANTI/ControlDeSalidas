@@ -200,6 +200,7 @@ try {
                        </div>
                    </tbody>
                </table>
+               <br>
                <form action="controlAlumno.php" class="paginador" method="post">
                 <input type="submit" name="primera" value="<<">
                     <input type="submit" name="anterior" value="<">

@@ -212,11 +212,6 @@ body{
 
 /*-----------------Control De Alumno---------------------*/
 
-.controlAlumno{
-    justify-content: space-between;
-    width: 100%;
-}
-
 .alumnos-body{
     margin-left: 23%;
     text-align: center;
@@ -244,3 +239,19 @@ th{
     }
 }
 /*-----------------Fin Control De Alumno-----------------*/
+
+/*-----------------Controles Cerrados--------------------*/
+
+.controlCerrado{
+    margin-left: 5%;
+    text-align: center;
+    
+}
+
+.controlesCerradosHead{
+    font-size: 150%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
+/*---------------Fin Controles Cerrados------------------*/
