@@ -30,7 +30,7 @@ $pagina = isset($_POST["pagina"])? $_POST["pagina"]:1;
 try {
     # Recoger los controles
     $sql = 'SELECT c.*, a.nombre FROM control c JOIN alumno a ON a.nia=c.id_alumno
-     WHERE fecha_llegada IS NOT NULL ORDER BY fecha_registrar DESC';
+     WHERE fecha_llegada IS NOT NULL ORDER BY fecha_registrar DESC LIMIT '.($pagina-1)*$num_registros.', '.$num_registros;
     $stmt = $conexion->prepare($sql);
     $stmt->execute();
 

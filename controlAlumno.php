@@ -34,11 +34,6 @@ try {
         $sql_where .= " AND nombre LIKE :nombre";
         $filters[":nombre"] = "%".$nombre."%";
     }
-    /*
-    if (!empty($curso)) {
-        $sql_where .= " AND id_curso LIKE :curso";
-        $filters[":curso"] = "%".$curso."%";
-    }*/
 
     $stmt = $conexion->prepare($sql_count.$sql_where);
     $stmt->execute($filters);
@@ -65,11 +60,6 @@ try {
         $sql_where .= " AND nombre LIKE :nombre";
         $filters[":nombre"] = "%".$nombre."%";
     }
-    /*
-    if (!empty($curso)) {
-        $sql_where .= " AND id_curso LIKE :curso";
-        $filters[":curso"] = $curso;
-    }*/
 
     $sql = 'SELECT * FROM alumno WHERE true';
     $sql_order = ' ORDER BY nia ASC LIMIT '.($pagina-1)*$num_registros.', '.$num_registros;
@@ -125,16 +115,7 @@ try {
                     <h1>ALUMNOS</h1>
                     <form method="post" action="controlAlumno.php" class="main-form" margin-top="140px">
                         <label for="nombre">Nombre:</label>
-                        <input type="text" name="nombre">
-                        <label for="curso">Curso:</label>
-                        <select name="curso">
-                        <?php
-                        foreach ($arrCurso as $curso) {
-                            echo '<option value="'.$curso['nombre'].'">'.$curso['nombre'].'</option>';
-                        }
-                        ?> 
-                        </select>
-
+                        <input type="text" name="nombre">    
                         <input type="submit" value="Buscar" name="buscar">
 
                         <br>
@@ -181,7 +162,7 @@ try {
                                 echo '<td><button type="submit" formaction="php/seeMore.php" name="seeMore"> Más Info</button></td>';
                                 echo '<td><label for="motivo">Motivo del control:</label>';
                                 echo  '<select name="motivo">';
-                                foreach ($arrMotivos as $motivo) { //TODO no funciona
+                                foreach ($arrMotivos as $motivo) {
                                     if ($motivo['nombre'] == "No tiene autorizacion") {
                                        echo '<option selected value="'.$motivo['nombre'].'">'.$motivo['nombre'].'</option>';
                                    } else {

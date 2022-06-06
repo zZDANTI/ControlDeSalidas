@@ -43,7 +43,6 @@ if ($submit) {
 
         if ($is_insert) {
             echo '<script>
-                    alert("Control validado correctamente.")
                     window.location = "../controlAlumno.php";
                   </script>';
             exit();

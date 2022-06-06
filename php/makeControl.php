@@ -58,7 +58,6 @@ if ($submit) {
 
         if ($is_insert) {
             echo '<script>
-                    alert("Alumno insertado correctamente.")
                     window.location = "../controlAlumno.php";
                   </script>';
             exit();

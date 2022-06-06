@@ -25,10 +25,6 @@ if (isset($_POST['seeMore'])) {
     $submit_type="updateAlumno";
 }
 
-echo "<pre>";
-print_r($_POST);
-echo "</pre>";
-
 // Operación de inserción
 if ($submit) {
     try {
@@ -111,7 +107,6 @@ if ($submit) {
 
             if ($is_insert) {
                 echo '<script>
-                    alert("Alumno editado correctamente.")
                     window.location = "../controlAlumno.php";
                   </script>';
                 exit();
