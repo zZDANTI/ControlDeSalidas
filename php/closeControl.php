@@ -7,10 +7,6 @@ $nia = isset($_POST['nia'])? $_POST['nia']:null;
 $pers_autorizacion = $_SESSION['usuario'];
 $submit = isset($_POST['closeControl']);
 
-echo "<pre>";
-print_r($_POST);
-echo "</pre>";
-
 // Operación de inserción
 if ($submit) {
 

@@ -11,11 +11,6 @@ $pers_auth = $_SESSION['usuario'];
 $observaciones = isset($_POST['observaciones'])? $_POST['observaciones']:null;
 $submit = isset($_POST['makeControl']);
 
-echo "<pre>";
-print_r($_POST);
-echo "</pre>";
-echo $pers_auth;
-
 // Operación de inserción
 if ($submit) {
     try {
