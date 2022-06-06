@@ -24,7 +24,7 @@
 <body>
 	<header class="header">
         <nav class="nav">
-            <a href="#" class="logo"><img src="Imgs/big-logo.png" alt="logoCampico"></a>
+            <a href="controlAlumno.php" class="logo"><img src="Imgs/big-logo.png" alt="logoCampico"></a>
             <button class="boton">
                 <i class="fas fa-bars"></i>
             </button>
